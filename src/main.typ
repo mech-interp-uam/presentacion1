@@ -8,6 +8,8 @@
 #import cosmos.clouds: *
 #show: show-theorion
 
+#set text(lang: "es")
+
 #let blob(pos, label, tint: white, ..args) = node(
   pos, align(center, label),
   width: 28mm,
@@ -28,8 +30,9 @@
   // config-common(handout: true),
   config-common(frozen-counters: (theorem-counter,)),  // freeze theorem counter for animation
   config-info(
-    title: [Entrenamiento de un Autoencoder disperso sobre llama3.2 1B],
-    subtitle: [Para aprendizaje de diccionario via auto-interpretabilidad],
+    title: [Exploración de modelos Transformers y su Interpretabilidad
+        Mecanicista],
+    subtitle: [Parte 1. Interpretabilidad Mecanicista],
     author: [Hernández Peralta Sergio Antonio, Juan Emmanuel Cuéllar Lugo, \
     Julia López Diego, Nathael Ramos Cabrera],
     logo: emoji.school,
@@ -52,7 +55,6 @@ Las redes neuronales son modelos matemáticos que actualmente poseen capacidades
 impresionantes. Desde Traducción, generación de videos, creación de programas,
 etc.
 
-#pause
 == Realizado
 // No me gusta, cambiar púnto
 - Entrenamos una red neuronal para la "ingeniería inversa" de un
@@ -123,7 +125,7 @@ Bkw:
   operaciones.
 ]
 #remark[
-  Frecuentemente se usa de $2T$ a $3T$ en vez de $6T$.
+  En la práctica, se observa de $2T$ a $3T$ en vez de $6T$.
 ]
 
 == ADAM
@@ -134,11 +136,21 @@ adam cool
 
 == Fenómenos
 
-#lorem(20)
+Esta parte de aquí explica varias neuronas monosemántica y los resultados de
+word2vec, las neuronas monosemánticas, y las caracteristicas en unos cuantos
+bullet-points y poco texto
 
-== Conceptos
+#speaker-note[
+  En esta nota al precentador, se explica detalladamente, con mucho texto
+]
 
-#lorem(27)
+== Hipótesis de reprecentaciónes Lineales
+
+- caracteristicas como direcciones en el espacio de activaciónes
+
+#speaker-note[
+  a
+]
 
 == Autoencoders Dispersos
 #lorem(2)
@@ -186,6 +198,7 @@ Esto usando el procedimiento documentado en "GemmaScope"
   - $(beta_1, beta_2) = (0, 0.999)$
 
   - Cosine schedule, warmup
+  - Columnas normalizadas
   - Columnas normalizadas
   - $b = 4096$
 ]
