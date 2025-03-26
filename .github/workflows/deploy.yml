@@ -29,7 +29,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: pip
 
       - name: Install dependencies
         run: pip install touying
@@ -39,12 +38,12 @@ jobs:
 
       - name: Build the html
         run: |
-          touying compile --root=src --output=build/main.html src/main.typ
+          touying compile --root=src --output=build/index.html src/main.typ
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "build/main.html"
+          path: "build/"
 
       # Deploy to GitHub Pages only on push events
       - name: Deploy to GitHub Pages
@@ -52,4 +51,47 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-
+  release:
+    # Run this job only on push events (not on pull requests)
+    if: github.event_name == 'push'
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install touying
+      - name: Build the PDF
+        run: |
+          mkdir -p build
+          touying compile --root=src --output=build/myfile.pdf --format=pdf src/main.typ
+      - name: Compute nightly tag
+        id: nightly_tag
+        run: |
+          echo "NIGHTLY_TAG=nightly-$(date +'%Y%m%d')" >> $GITHUB_ENV
+          echo "Nightly tag is $NIGHTLY_TAG"
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.NIGHTLY_TAG }}
+          release_name: "Nightly Release ${{ env.NIGHTLY_TAG }}"
+          body: "Automatic nightly release build."
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload PDF to Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: build/myfile.pdf
+          asset_name: myfile.pdf
+          asset_content_type: application/pdf

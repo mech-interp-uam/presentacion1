@@ -148,8 +148,15 @@ bullet-points y poco texto
 
 - caracteristicas como direcciones en el espacio de activaciónes
 
+
 #speaker-note[
   a
+]
+
+== Compressed sensing
+
+#lemma(title:"Johnson-Lindenstrauss")[
+  #lorem(40)
 ]
 
 == Autoencoders Dispersos
