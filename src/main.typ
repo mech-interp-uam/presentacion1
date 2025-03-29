@@ -9,15 +9,24 @@
 #show: show-theorion
 
 #set text(lang: "es")
+#let transparent = black.transparentize(100%)
 
-#let blob(pos, label, tint: white, ..args) = node(
-  pos, align(center, label),
-  width: 28mm,
-  fill: tint.lighten(60%),
-  stroke: 1pt + tint.darken(20%),
-  corner-radius: 5pt,
+#let blob(pos, label, tint: white, hidden:false, ..args) = node(
+  pos, align(center,
+    if hidden {text(fill: black.transparentize(100%), label)} else {label}
+  ),
+  width: 175pt,
+  fill: if hidden {transparent} else {tint.lighten(60%)},
+  stroke: if hidden {transparent} else {1pt + tint.darken(20%)},
+  corner-radius: 10pt,
   ..args,
 )
+
+#let edge-hidden(hidden: false, ..args) = {
+  if hidden {edge(stroke: transparent, ..args)}
+  else {edge(..args)}
+}
+
 // cetz and fletcher bindings for touying
 #let cetz-canvas = touying-reducer.with(reduce: cetz.canvas, cover: cetz.draw.hide.with(bounds: true))
 #let fletcher-diagram = touying-reducer.with(reduce: fletcher.diagram, cover: fletcher.hide)
@@ -131,6 +140,87 @@ Bkw:
 == ADAM
 
 adam cool
+
+== Transformers
+
+#slide(
+  repeat: 3,
+  self => [
+    #let (only, uncover, alternatives) = utils.methods(self)
+
+    #fletcher-diagram(
+      edge-corner-radius: 10pt,
+      edge-stroke: 0.9pt,
+
+      edge((0,0.34), (0,0), "--|>"),
+
+      edge((0,0), (0,-1.125), "-|>",
+        label: $x_i$,
+        label-pos: -9pt,
+        label-side: right,
+        label-sep: 18pt,
+      ),
+
+      edge(
+        (0,-1.125), (0,-2.25), "-|>",
+        label:
+        $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
+        label-side: right,
+        label-pos: -12pt,
+        label-sep: 18pt,
+      ),
+
+      edge(
+        (0,-2.25), (0,-2.6), "--|>",
+        label: $x_(i+2) #uncover("3-", $= m(x_(i+1))$)$,
+        label-side: right,
+        label-pos: -10pt,
+        label-sep: 18pt,
+      ),
+
+      node((0,0), inset:-4pt, name: <xi>),
+      node((0,-1.125), $ plus.circle $, inset:-4pt, name: <xip>),
+      node((0,-2.25), $ plus.circle $, inset:-4pt, name: <xipp>),
+      node(
+        enclose: (<xi>, <xip>, <xipp>, <mha>, <mlp>),
+        fill: green.transparentize(80%),
+        snap: false,
+        corner-radius: 10pt,
+        inset: 10pt,
+        stroke: green.darken(20%),
+      ),
+
+      {
+        let hidden = self.subslide < 2
+        edge-hidden((0,0), (0,-0.1875), (-0.6,-0.1875), (-0.6,-0.75), "-|>",
+          hidden:hidden)
+        blob((-0.6,-0.7), [Autoatención\ multicabezal], tint: orange, name:
+          <mha>, hidden: hidden)
+        edge-hidden((-0.6,-0.7), (-0.6,-1.125), (0,-1.125), "-|>",
+          hidden: hidden)
+      },
+
+      {
+        let hidden = self.subslide < 3
+        edge-hidden((0,-1.125), (0,-1.3125), (-0.6,-1.3125), (-0.6,-1.79),
+          "-|>", hidden:hidden)
+        blob((-0.6,-1.79), [Perceptrón\ Multicapa], tint: blue, name: <mlp>,
+          hidden: hidden)
+        edge-hidden((-0.6,-1.79), (-0.6,-2.25), (0,-2.25), "-|>",
+          hidden: hidden)
+      },
+
+    )
+  ]
+)
+
+
+#fletcher-diagram(
+  edge-corner-radius: 10pt,
+  edge-stroke: 0.9pt,
+  blob((0,0),  none, height:50pt, tint:green),
+  blob((0,-1), none, height:50pt, tint:green),
+)
 
 = Interpretabilidad mecanicista
 
