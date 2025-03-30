@@ -22,6 +22,8 @@
   ..args,
 )
 
+#let plusnode(pos, ..args) = node(pos, $ plus.circle $, inset:-5pt, ..args)
+
 #let edge-hidden(hidden: false, ..args) = {
   if hidden {edge(stroke: transparent, ..args)}
   else {edge(..args)}
@@ -148,42 +150,47 @@ adam cool
   self => [
     #let (only, uncover, alternatives) = utils.methods(self)
 
+    #let edge-corner-radius = 10pt
+    #let branch-off-offset = edge-corner-radius*1.4
+    #let second-col-offset = 100pt
+    #let before-branch = 10pt
     #fletcher-diagram(
-      edge-corner-radius: 10pt,
+      edge-corner-radius: edge-corner-radius,
       edge-stroke: 0.9pt,
 
-      edge((0,0.34), (0,0), "--|>"),
+      node((0,0), name: <xi>),
+      plusnode((rel:(0pt, 117pt), to:<xi>),        name: <xip>),
+      plusnode((rel:(0pt, 117pt), to:<xip.north>), name: <xipp>),
 
-      edge((0,0), (0,-1.125), "-|>",
+      edge((rel:(0pt, -25pt), to:<xi>), <xi>, "--|>"),
+      edge(<xi>, <xip>, "-|>",
         label: $x_i$,
         label-pos: -9pt,
         label-side: right,
         label-sep: 18pt,
       ),
-
       edge(
-        (0,-1.125), (0,-2.25), "-|>",
-        label:
-        $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
+        <xip>,
+        <xipp>,
+        label: $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
         label-side: right,
         label-pos: -12pt,
         label-sep: 18pt,
+        "-|>",
       ),
-
       edge(
-        (0,-2.25), (0,-2.6), "--|>",
+        <xipp>,
+        (rel:(0pt, 25pt), to:<xipp.north>),
         label: $x_(i+2) #uncover("3-", $= m(x_(i+1))$)$,
         label-side: right,
         label-pos: -10pt,
         label-sep: 18pt,
+        "--|>",
       ),
 
-      node((0,0), inset:-4pt, name: <xi>),
-      node((0,-1.125), $ plus.circle $, inset:-4pt, name: <xip>),
-      node((0,-2.25), $ plus.circle $, inset:-4pt, name: <xipp>),
       node(
         enclose: (<xi>, <xip>, <xipp>, <mha>, <mlp>),
-        fill: green.transparentize(80%),
+        fill: green.transparentize(70%),
         snap: false,
         corner-radius: 10pt,
         inset: 10pt,
@@ -192,22 +199,57 @@ adam cool
 
       {
         let hidden = self.subslide < 2
-        edge-hidden((0,0), (0,-0.1875), (-0.6,-0.1875), (-0.6,-0.75), "-|>",
-          hidden:hidden)
-        blob((-0.6,-0.7), [Autoatención\ multicabezal], tint: orange, name:
-          <mha>, hidden: hidden)
-        edge-hidden((-0.6,-0.7), (-0.6,-1.125), (0,-1.125), "-|>",
-          hidden: hidden)
+        node(
+          (rel:(-second-col-offset, branch-off-offset), to:<xi>),
+          name:<mha-pre>,
+        )
+        edge-hidden(
+          (<xi>, "|-", (rel:(0pt, -edge-corner-radius), to:<mha-pre>)),
+          (<xi>, "|-", <mha-pre>),
+          <mha-pre>,
+          <mha>, "-|>",
+          hidden:hidden,
+        )
+        blob(
+          (<mha-pre>, 50%, (<mha-pre>, "|-", <xip>)),
+          [Autoatención\ multicabezal],
+          tint: orange,
+          name: <mha>,
+          hidden: hidden,
+        )
+        edge-hidden(<mha>, (<mha>, "|-", <xip>), <xip>, "-|>",
+          hidden: hidden,
+        )
       },
 
       {
         let hidden = self.subslide < 3
-        edge-hidden((0,-1.125), (0,-1.3125), (-0.6,-1.3125), (-0.6,-1.79),
-          "-|>", hidden:hidden)
-        blob((-0.6,-1.79), [Perceptrón\ Multicapa], tint: blue, name: <mlp>,
-          hidden: hidden)
-        edge-hidden((-0.6,-1.79), (-0.6,-2.25), (0,-2.25), "-|>",
-          hidden: hidden)
+        node(
+          (rel:(-second-col-offset, branch-off-offset), to:<xip.north>),
+          name:<mlp-pre>,
+        )
+        edge-hidden(
+          (<xip>, "|-", (rel:(0pt, -edge-corner-radius), to: <mlp-pre>)),
+          (<xip>, "|-", <mlp-pre>),
+          <mlp-pre>,
+          <mlp>,
+          hidden:hidden,
+          "-|>",
+        )
+        blob(
+          (<mlp-pre>, 50%, (<mlp-pre>, "|-", <xipp>)),
+          [Perceptrón\ Multicapa],
+          tint: blue,
+          name: <mlp>,
+          hidden: hidden,
+        )
+        edge-hidden(
+          <mlp>,
+          (<mlp>, "|-", <xipp>),
+          <xipp>,
+          hidden: hidden,
+          "-|>",
+        )
       },
 
     )
