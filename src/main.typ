@@ -48,6 +48,7 @@
     Julia López Diego, Nathael Ramos Cabrera],
     logo: emoji.school,
   ),
+  footer-a: [Sergio, Juan, Julia, Nathael],
 )
 
 #set heading(numbering: numbly("{1}.", default: "1.1"))
