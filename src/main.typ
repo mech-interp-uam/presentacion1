@@ -46,7 +46,7 @@
     subtitle: [Parte 1. Interpretabilidad Mecanicista],
     author: [Hernández Peralta Sergio Antonio, Juan Emmanuel Cuéllar Lugo, \
     Julia López Diego, Nathael Ramos Cabrera],
-    logo: emoji.school,
+    logo: box(image("Logo_de_la_UAM_no_emblema.svg", width:36pt)),
   ),
   footer-a: [Sergio, Juan, Julia, Nathael],
 )
