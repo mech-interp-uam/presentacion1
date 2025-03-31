@@ -133,9 +133,14 @@ Bkw:
 #theorem[
   Sea $f: RR^n -> RR$ una función escalar computada usando un grafo
   computacional que es evaluada usando un total de $T$ operaciones elementales.
+
+  #pause
   Entonces la retropropagación computa $gradient f$ usando no mas de $6T$
   operaciones.
 ]
+
+#pause
+
 #remark[
   En la práctica, se observa de $2T$ a $3T$ en vez de $6T$.
 ]
