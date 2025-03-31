@@ -182,7 +182,7 @@ adam cool
       edge(
         <xipp>,
         (rel:(0pt, 25pt), to:<xipp.north>),
-        label: $x_(i+2) #uncover("3-", $= m(x_(i+1))$)$,
+        label: $x_(i+2) #uncover("3-", $= x_(i+1) + m(x_(i+1))$)$,
         label-side: right,
         label-pos: -10pt,
         label-sep: 18pt,
