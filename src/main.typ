@@ -94,6 +94,19 @@ Black box, etc
   llama3.2, dalle, etc
 ]
 
+== Perceptrones multicapa
+
+Parámetros: $W^((l)), b^((l))$
+$
+  a^((0)) &= x \
+  z^((l)) &= W^((l)) a^((l-1)) + b^((l)) && quad "(preactivaciónes)" \
+  #pause
+  a^((l)) &= sigma(z^((l))) && quad "(activaciónes)"
+$
+
+#pause
+- Término genérico
+
 == Entrenamiento
 
 Para entrenar una red neuronal, usamos optimización de primer orden, es decir,
