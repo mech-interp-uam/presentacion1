@@ -160,7 +160,156 @@ Bkw:
 
 == ADAM
 
-adam cool
+#slide(repeat: 3, self => {
+  align(center, cetz-canvas(length: 7.5cm, {
+    import cetz.draw: *
+    let arrow-style = fill => (
+      mark: (end: "triangle", fill:fill, scale:1.1),
+      stroke: 2.7pt+fill
+    )
+
+    set-transform(cetz.matrix.transform-rotate-dir(
+      (1, 0.4, 0),
+      (0,   0, 1),
+    ))
+
+    let n-circles = 6
+    let target-opacity = 0.6
+    let r = calc.root(1 - target-opacity, n-circles)
+    let reduction = calc.round(r, digits: 2) * 100%
+    let final_y = -0.55
+
+    for i in range(n-circles) {
+      let progress = i / (n-circles - 1)
+      let size = 1-progress
+      circle(
+        ((1-progress)*0.14, (1- progress) * final_y),
+        radius: (0.5 * size, 1.2 * size),
+        fill: blue.transparentize(reduction),
+        stroke: blue.transparentize(40%),
+      )
+    }
+
+    let gd_color   = purple
+    let sgd_color  = orange
+    let adam_color = red
+
+    let gd_points = (
+      (0.1, -1.65),
+      (0.09, -1.50),
+      (0.07, -1.30),
+      (0.04, -1.10),
+      (0.0, -0.90),
+      (-0.03, -0.70),
+      (-0.02, -0.50),
+      (0.01, -0.30),
+      (0.03, -0.15),
+      (0.0, 0.0)
+    )
+    let batch_sgd_points = (
+      (0.1, -1.65),
+      (0.05, -1.46),
+      (-0.252, -1.20),
+      (0.182, -1.00),
+      (0.28, -0.80),
+      (0.0, -0.60),
+      (-0.14, -0.40),
+      (0.0, -0.20),
+      (0.14, -0.10)
+    )
+    let adam_points = (
+      (0.1, -1.65),
+      (0.05, -1.46),
+      (-0.1, -1.06),
+      (0.05, -0.78),
+      (0.0, -0.50),
+      (0.0, -0.30),
+      (0.00, -0.20),
+      (0.06, -0.13),
+      (0.04, -0.06)
+    )
+
+    for i in range(gd_points.len() - 1) {
+      line(
+      gd_points.at(i),
+      gd_points.at(i+1),
+      ..arrow-style(
+          gd_color.darken(10%).transparentize(
+            if self.subslide < 1 {
+              100%
+            } else if self.subslide == 1 {
+              0%
+            } else {60%}
+          )
+        )
+      )
+    }
+
+    for i in range(batch_sgd_points.len() - 1) {
+      line(
+      batch_sgd_points.at(i),
+      batch_sgd_points.at(i+1),
+      ..arrow-style(
+          sgd_color.darken(10%).transparentize(
+            if self.subslide < 2 {
+              100%
+            } else if self.subslide == 2 {
+              0%
+            } else {60%}
+          )
+        )
+      )
+    }
+
+    for i in range(adam_points.len() - 1) {
+      line(
+      adam_points.at(i),
+      adam_points.at(i+1),
+      ..arrow-style(
+          adam_color.darken(10%).transparentize(
+            if self.subslide < 3 {
+              100%
+            } else if self.subslide == 3 {
+              0%
+            } else {60%}
+          )
+        )
+      )
+    }
+
+    content((1.1,0.2), anchor: "north-west", [
+
+      #text(fill:gd_color, [$->$ Descenso de gradiente])
+
+      #text(
+        fill:sgd_color.transparentize(if self.subslide < 2 {100%} else {0%}),
+        [ $->$ Descenso de gradiente\
+          #text(fill:black.transparentize(100%), $->$) Estocástico],
+      )
+
+      #text(
+        fill:adam_color.transparentize(if self.subslide < 3 {100%} else {0%}),
+        [$->$ ADAM],
+      )
+    ])
+
+  }))
+})
+
+#speaker-note[
+  - Calcular el gradiente tiene complejidad *lineal* con respecto a la cantidad
+    de datos
+
+  - Descenso de gradiente estocástico actualiza los parámetros basado en un
+    gradiente calculado con solo algunos datos
+
+  - ADAM incorpora una media movil de los momentos del gradiente
+    - NO momentos como en estadística,
+    - momentos en el sentído de la física
+      - velocidad
+      - aceleración
+]
+
 
 == Transformers
 
