@@ -39,22 +39,25 @@ jobs:
 
       - name: Build HTML slides
         run: |
-          touying compile --root=src --output=build/index.html src/main.typ
+          touying compile --root=src --output="build/index.html"                                       src/main.typ
+          touying compile --root=src --output="build/4-3.html"   --sys-inputs '{"aspect-ratio":"4-3"}' src/main.typ
 
       - name: Build PDF slides
         run: |
-          touying compile --root=src --format=pdf --output=build/diapositivas.pdf src/main.typ
+          touying compile --root=src --format=pdf --output="build/diapositivas.pdf"                                           src/main.typ
+          touying compile --root=src --format=pdf --output="build/diapositivas-4-3.pdf" --sys-inputs '{"aspect-ratio":"4-3"}' src/main.typ
 
-      - name: Build PDF handout
+      - name: Build PDF handouts
         run: |
-          touying compile --root=src --format=pdf --output=build/handout.pdf --sys-inputs '{"handout":"true"}' src/main.typ
-        
+          touying compile --root=src --format=pdf --output="build/handout.pdf"     --sys-inputs '{"handout":"true"}'                       src/main.typ
+          touying compile --root=src --format=pdf --output="build/handout-4-3.pdf" --sys-inputs '{"handout":"true", "aspect-ratio":"4-3"}' src/main.typ
+
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "build/"
-          
+
       # Deploy to GitHub Pages only on push events
       - name: Deploy to GitHub Pages
         if: github.event_name == 'push'

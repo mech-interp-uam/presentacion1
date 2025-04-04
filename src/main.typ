@@ -36,7 +36,7 @@
 #set text(font: "New Computer Modern")
 
 #show: university-theme.with(
-  aspect-ratio: "16-9",
+  aspect-ratio: sys.inputs.at("aspect-ratio", default:"16-9"),
   align: horizon,
   config-common(handout: sys.inputs.at("handout", default:"false") == "true"),
   config-common(frozen-counters: (theorem-counter,)),  // freeze theorem counter for animation
