@@ -38,7 +38,7 @@
 #show: university-theme.with(
   aspect-ratio: "16-9",
   align: horizon,
-  // config-common(handout: true),
+  config-common(handout: sys.inputs.at("handout", default:"false") == "true"),
   config-common(frozen-counters: (theorem-counter,)),  // freeze theorem counter for animation
   config-info(
     title: [Exploración de modelos Transformers y su Interpretabilidad
