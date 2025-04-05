@@ -107,12 +107,62 @@ $
 #pause
 - Término genérico
 
+== Activaciones y neuronas
+
+// TODO: Juan
+Este slide hace énfasis en su diferencia, son un concepto central así que debe
+quedar claro, además, se menciona que matemáticamente son la imágenes despues de
+aplicar una parte de la red neuronal, y una parte de una red neuronal
+respectivamente. Decimos que una neurona se activa cuando su imágen es grande a
+comparación con su imágen típica
+
+== Teorema de aproximación universal
+
+#theorem[
+// TODO: Juan
+  #lorem(40)
+]
+
+== Redes neuronales Profundas
+
+Aquí se menciona que en práctica las redes se escalan en produndidad y altura. Y
+las redes actuales tienen cientos de capas.
+
 == Entrenamiento
 
-Para entrenar una red neuronal, usamos optimización de primer orden, es decir,
-basandonos en el gradiente#pause
+=== Aprendizaje supervizado
+- Optimizar un modelo para aproximar una función #pause
 
-- Tomar la derivada de programas#pause
+- Los datos consisten de pares $(x,y)$ #pause
+
+- Función objetivo
+
+#pagebreak(weak:true)
+
+=== Función objetivo
+
+- Mide el desempeño #pause
+
+- La única guía de la red neuronal #pause
+
+Ejemplos:
+#pause
+
+- $ell_2$ #pause
+
+- $H(p,q) = - EE_p [log q]$ (Entropía cruzada)
+
+#pagebreak(weak:true)
+
+#remark[
+  Para entrenar una red neuronal, usamos optimización de primer orden, es decir,
+  basandonos en el gradiente
+]
+
+== Retropropagación
+
+Cómo tomamos la derivada de programa arbitrariamente complicado?
+
 
 #pagebreak(weak:true)
 
@@ -436,37 +486,72 @@ Bkw:
 
 == Fenómenos
 
-Esta parte de aquí explica varias neuronas monosemántica y los resultados de
-word2vec, las neuronas monosemánticas, y las caracteristicas en unos cuantos
-bullet-points y poco texto
+=== Neuronas monosemánticas
+// TODO: Juan
+Esta parte de aquí expone varias neuronas monosemánticas, y las
+caracteristicas en unos cuantos bullet-points y poco texto, énfasis en que con
+neuronas nos referimos a una parte de la red neuronal, terminando en un escalar,
+es decir una función $RR^n -> RR$
 
 #speaker-note[
-  En esta nota al precentador, se explica detalladamente, con mucho texto
+  En esta nota al precentador, se explica detalladamente, con mucho texto:
+  - Mencionar las neuronas:
+    - Spiderman (CLIP)
+    - Halle Berry (Inception)
+    - Capital cities (GPT-2)
 ]
+
+
+#pagebreak(weak:true)
+
+=== Polisemanticidad
+
+// TODO: Juan
+Aquí se expone que en la mayoría de los no hay una sola cosa / concepto que haga
+que una neurona se tenga una gran activación
+
+=== Direcciónes semánticas en CLIP
+
+// TODO: Juan
+Gender, Verb and Plurality axis
+Aquí se introduce la idea de papabras/tokens como vectores
 
 == Hipótesis de reprecentaciónes Lineales
 
-- caracteristicas como direcciones en el espacio de activaciónes
+#theorem-box[
+  // TODO: Juan
+  #lorem(40)
+]
 
 
 #speaker-note[
+  // TODO: Juan
   a
 ]
 
 == Compressed sensing
 
 #lemma(title:"Johnson-Lindenstrauss")[
+  // TODO: Juan
   #lorem(40)
 ]
 
+== Aprendizade de diccionario
+// TODO: Juan
+#lorem(30)
+
 == Autoencoders Dispersos
-#lorem(2)
+// TODO: Juan
+#lorem(40)
 
-== auto-interpretabilidad
-#lorem(3)
+== Qué es la Interpretabilidad mecanicista?
 
-
-
+// TODO: Juan
+Aquí se describe en general haciendo una analogía explicita con la ingeniería
+inversa (as in computer science) y no tan explicita con la biología molecular
+(por la escala pequeña de investigación) quizas solo usar palabras como crecer
+(en el sentido de crecer/cultivar plantas) (las redes neuronales no se programan
+explicitamente, ses crecen como plantas)
 
 = Aprendizaje de Diccionario en llama 3.2 1B
 
