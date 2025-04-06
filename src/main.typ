@@ -8,6 +8,7 @@
 #import cosmos.clouds: *
 #show: show-theorion
 
+#let sae-neuron-color = rgb("4a90e2")
 #set text(lang: "es")
 #let transparent = black.transparentize(100%)
 
@@ -542,7 +543,92 @@ Aquí se introduce la idea de papabras/tokens como vectores
 
 == Autoencoders Dispersos
 // TODO: Juan
-#lorem(40)
+#import "@preview/suiji:0.3.0"
+
+#slide(composer: (auto, auto))[
+  #align(center, fletcher-diagram(
+    edge-corner-radius: 10pt,
+    edge-stroke: 0.9pt,
+    {
+      let d-in = 6
+      let d-hidden = 12
+      let in-size = 160pt
+      let hidden-size = 240pt
+      let neuron-radius = 6pt
+      let col-spacing = 100pt
+
+      let rng = suiji.gen-rng(43)
+      let hidden_rng = suiji.gen-rng(43)
+
+      let (rng, transparencies) = suiji.uniform(rng, low: 0.0, high: 1.0, size:d-in)
+      let float-to-percent = f => calc.round(f, digits:2) * 100%
+
+      // Nodo de referencia para posicionamiento
+      node((0,0), name: <center>)
+
+      // Primera columna (entrada)
+      for i in range(d-in) {
+        let y-pos = (i - d-in/2) * in-size/d-in
+        node(
+          (rel:(-col-spacing, y-pos), to:<center>),
+          shape: circle,
+          radius: neuron-radius,
+          fill: sae-neuron-color.transparentize(float-to-percent(transparencies.at(i))),
+          stroke: sae-neuron-color.darken(20%),
+          name: label("in-" + str(i)),
+        )
+      }
+
+      // Generador aleatorio separado para neuronas ocultas
+      let (hidden_rng, hidden_transparencies) = suiji.integers(hidden_rng, low: 0, high: 2, size: d-hidden)
+      for i in range(d-hidden) {
+        let y-pos = (i - d-hidden/2) * hidden-size/d-hidden
+        node(
+          (rel:(0pt, y-pos), to:<center>),
+          shape: circle,
+          radius: neuron-radius,
+          fill: sae-neuron-color.transparentize(if hidden_transparencies.at(i) == 0 {0%} else {100%}),
+          stroke: sae-neuron-color.darken(20%),
+          name: label("hidden-" + str(i)),
+        )
+      }
+
+      // Columna de salida (mismo tamaño que entrada)
+      for i in range(d-in) {
+        let y-pos = (i - d-in/2) * in-size/d-in
+          node(
+          (rel:(col-spacing, y-pos), to:<center>),
+          shape: circle,
+          radius: neuron-radius,
+          fill: sae-neuron-color.transparentize(float-to-percent(transparencies.at(i))),
+          stroke: sae-neuron-color.darken(20%),
+          name: label("out-" + str(i)),
+        )
+      }
+
+      // Connect input to hidden
+      for i in range(d-in) {
+        for j in range(d-hidden) {
+          edge(label("in-" + str(i)), label("hidden-" + str(j)), stroke: 1pt + gray)
+        }
+      }
+
+      // Connect hidden to output
+      for i in range(d-hidden) {
+        for j in range(d-in) {
+          edge(label("hidden-" + str(i)), label("out-" + str(j)), stroke: 1pt + gray)
+        }
+      }
+    }
+  ))
+][
+  // TODO: Juan
+  - #lorem(5) #pause
+
+  - #lorem(5) #pause
+
+  - #lorem(5) #pause
+]
 
 == Qué es la Interpretabilidad mecanicista?
 
