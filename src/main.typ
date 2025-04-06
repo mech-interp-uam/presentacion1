@@ -558,62 +558,66 @@ Aquí se introduce la idea de papabras/tokens como vectores
       let col-spacing = 100pt
 
       let rng = suiji.gen-rng(43)
-      let hidden_rng = suiji.gen-rng(43)
+      let hidden_rng = suiji.gen-rng(47)
 
-      let (rng, transparencies) = suiji.uniform(rng, low: 0.0, high: 1.0, size:d-in)
+      let (rng, activations) = suiji.uniform(rng, low: 0.0, high: 1.0, size:d-in)
       let float-to-percent = f => calc.round(f, digits:2) * 100%
+      // Generador aleatorio separado para neuronas ocultas
+      let p = 0.3
+      let (hidden_rng, uniform-values) = suiji.uniform(hidden_rng, low: 0.0, high: 1.0, size: d-hidden)
+      let is-alive = uniform-values.map(u => if u < p { 1.0 } else { 0.0 })
+      let (hidden_rng, hidden-activations) = suiji.uniform(hidden_rng, low: 0.0, high: 1.0, size: d-hidden)
 
-      // Nodo de referencia para posicionamiento
+      // Nodo de referencia para el posicionamiento
       node((0,0), name: <center>)
 
-      // Primera columna (entrada)
+      // Capa de entrada
       for i in range(d-in) {
         let y-pos = (i - d-in/2) * in-size/d-in
         node(
           (rel:(-col-spacing, y-pos), to:<center>),
           shape: circle,
           radius: neuron-radius,
-          fill: sae-neuron-color.transparentize(float-to-percent(transparencies.at(i))),
+          fill: sae-neuron-color.transparentize(float-to-percent(1-activations.at(i))),
           stroke: sae-neuron-color.darken(20%),
           name: label("in-" + str(i)),
         )
       }
 
-      // Generador aleatorio separado para neuronas ocultas
-      let (hidden_rng, hidden_transparencies) = suiji.integers(hidden_rng, low: 0, high: 2, size: d-hidden)
+      // Capa oculta
       for i in range(d-hidden) {
         let y-pos = (i - d-hidden/2) * hidden-size/d-hidden
         node(
           (rel:(0pt, y-pos), to:<center>),
           shape: circle,
           radius: neuron-radius,
-          fill: sae-neuron-color.transparentize(if hidden_transparencies.at(i) == 0 {0%} else {100%}),
+          fill: sae-neuron-color.transparentize(float-to-percent(1 - (is-alive.at(i) * hidden-activations.at(i)))),
           stroke: sae-neuron-color.darken(20%),
           name: label("hidden-" + str(i)),
         )
       }
 
-      // Columna de salida (mismo tamaño que entrada)
+      // Capa de salida
       for i in range(d-in) {
         let y-pos = (i - d-in/2) * in-size/d-in
           node(
           (rel:(col-spacing, y-pos), to:<center>),
           shape: circle,
           radius: neuron-radius,
-          fill: sae-neuron-color.transparentize(float-to-percent(transparencies.at(i))),
+          fill: sae-neuron-color.transparentize(float-to-percent(1-activations.at(i))),
           stroke: sae-neuron-color.darken(20%),
           name: label("out-" + str(i)),
         )
       }
 
-      // Connect input to hidden
+      // Conectar entrada con capa oculta
       for i in range(d-in) {
         for j in range(d-hidden) {
           edge(label("in-" + str(i)), label("hidden-" + str(j)), stroke: 1pt + gray)
         }
       }
 
-      // Connect hidden to output
+      // Conectar capa oculta con salida
       for i in range(d-hidden) {
         for j in range(d-in) {
           edge(label("hidden-" + str(i)), label("out-" + str(j)), stroke: 1pt + gray)
