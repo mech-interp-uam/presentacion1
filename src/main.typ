@@ -110,19 +110,85 @@ $
 
 == Activaciones y neuronas
 
-// TODO: Juan
-Este slide hace énfasis en su diferencia, son un concepto central así que debe
-quedar claro, además, se menciona que matemáticamente son la imágenes despues de
-aplicar una parte de la red neuronal, y una parte de una red neuronal
-respectivamente. Decimos que una neurona se activa cuando su imágen es grande a
-comparación con su imágen típica
+
+¿Qué es una función de activación?
+
+Una función de activación es una función $phi: RR -> RR$ usualmente no lineal, que se aplica componente a componente al resultado de una combinación afín $W x + b$. Es decir:
+$
+  phi(W x + b) = (phi(z_1), phi(z_2), ... , phi(z_n)), quad "donde" quad z = W x + b
+$
+
+#pagebreak(weak: true)
+
+La primera función de activación históricamente relevante es la función escalón, la cual se define como:
+$
+  sigma(x) = cases(
+    1, "si" x ≥ 0,
+    0, "si" x < 0)
+  )
+$
+
+#pagebreak(weak: true)
+
+Otra función muy importancia es la función logística o sigmoide y se define como:
+
+$
+  sigma(x) = frac(1,1 + e^(-x))
+$
+
+su importacia en las redes neuronales multicapa se debe a que es una función suave, continua y diferenciable en todo $RR$.
+
+#pagebreak(weak: true)
+
+Otra función de activación es JumpReLU:
+
+
+$"JumpReLU"_θ(z_i) = cases(
+    z_i, "si" z_i > θ_i,
+    0, "en otro caso"
+  )$
+
+O de forma compacta: $"JumpReLU"_θ(z) = z dot.circle H(z - θ)$
+
+donde $H$ es la función escalón:
+
+$H(a) = cases(
+    1 "si" a > 0 ,
+    0 "si" a ≤ 0
+  )$
+
+#pagebreak(weak: true)
+
+Por último la función *Softmax*
+
+Si tenemos:$z = (z_1, z_2, dots, z_K)$
+
+La funcion softmax se define como:
+$
+  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
+$
+
+donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
+y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
+
 
 == Teorema de aproximación universal
 
 #theorem[
-// TODO: Juan
-  #lorem(40)
+  Teorema de aproximación universal (Hornik, Stinchcombe y White, 1989, 1991)
+
+  Sea $sigma: R -> R$ una función no constante, acotada y continua.
+  Entonces, la familia de funciones de la forma: $F(x) = sum_(j=1)^N alpha_j sigma(w_j^top x + theta_j)$ es densa en $C(K)$ para cualquier conjunto compacto $K subset R^n$.
+
+  Es decir, para toda función $f in C(K)$ y $epsilon > 0$ existe una combinación finita de la forma anterior tal que: $sup_(x in K) |f(x) - F(x)| < epsilon$
 ]
+
+#pagebreak(weak: true)
+
+"Versión informal"
+
+Una red neuronal feedforward con una sola capa oculta, que utilice una función de activación no lineal adecuada (como la sigmoide), puede aproximar cualquier función continua definida sobre un conjunto compacto de $RR^n$, con suficiente número de neuronas.
+
 
 == Redes neuronales Profundas
 
