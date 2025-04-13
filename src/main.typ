@@ -509,11 +509,16 @@ Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto
 
 === Polisemanticidad
 
-La polisemanticidad es un fenómeno observado en redes neuronales profundas donde una función escalar definida sobre una representación latente responde simultáneamente a múltiples características semánticas distintas de la entrada.
+La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
+una función escalar definida sobre una representación latente responde
+simultáneamente a múltiples características semánticas distintas de la entrada.
 
 #pagebreak(weak: true)
 
-Podríamos considerar una función $f: RR^n -> RR$ polisemántica respecto a una representación $h: X -> RR^n$, si la composición $f compose h$ no dependte de múltiples propiedades distintas del espacio de entradas $X$, sin que una sola de ellas domine claramente sobre las demás.
+Podríamos considerar una función $f: RR^n -> RR$ polisemántica respecto a una
+representación $h: X -> RR^n$, si la composición $f compose h$ no dependte de
+múltiples propiedades distintas del espacio de entradas $X$, sin que una sola de
+ellas domine claramente sobre las demás.
 
 === Direcciónes semánticas en CLIP
 
