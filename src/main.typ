@@ -488,11 +488,13 @@ Bkw:
 == Fenómenos
 
 === Neuronas monosemánticas
-// TODO: Juan
-Esta parte de aquí expone varias neuronas monosemánticas, y las
-caracteristicas en unos cuantos bullet-points y poco texto, énfasis en que con
-neuronas nos referimos a una parte de la red neuronal, terminando en un escalar,
-es decir una función $RR^n -> RR$
+La monosematicidad se refiere a un fenómeno observado en la redes neuronales profundas donde una neurona especifica representa claramente una única característica semánticas interpretable de la entrada.
+Entonces una neurona monosemántica se activa principalmente en respuesta a una sola característica de la entrada.
+
+
+#pagebreak(weak: true)
+
+Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto de una representación $h: X -> RR^n$, si la composición $f compose h$ depende principalmente de una única propiedad intepretable del espacio de entrada $X$
 
 #speaker-note[
   En esta nota al precentador, se explica detalladamente, con mucho texto:
@@ -507,9 +509,16 @@ es decir una función $RR^n -> RR$
 
 === Polisemanticidad
 
-// TODO: Juan
-Aquí se expone que en la mayoría de los no hay una sola cosa / concepto que haga
-que una neurona se tenga una gran activación
+La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
+una función escalar definida sobre una representación latente responde
+simultáneamente a múltiples características semánticas distintas de la entrada.
+
+#pagebreak(weak: true)
+
+Podríamos considerar una función $f: RR^n -> RR$ polisemántica respecto a una
+representación $h: X -> RR^n$, si la composición $f compose h$ no dependte de
+múltiples propiedades distintas del espacio de entradas $X$, sin que una sola de
+ellas domine claramente sobre las demás.
 
 === Direcciónes semánticas en CLIP
 
