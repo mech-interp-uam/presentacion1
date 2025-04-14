@@ -518,7 +518,7 @@ común. Dentro de este espacio, se ha observado que ciertas propiedades
 semánticas —como género, número, tipo gramatical o identidad visual— se
 representan mediante direcciones vectoriales específicas. \
 
-$d_plural = v_gatos - v_gato$\
+$d_"plural" = v_"gatos" - v_"gato"$\
 
 #speaker-note[
   Esto significa que cambios conceptuales pueden modelarse como movimientos
@@ -564,9 +564,9 @@ un número reducido de mediciones.
 #lemma(title: "Johnson-Lindenstrauss")[
   Sea $0 < epsilon < 1$ y sea $S$ un conjunto de $m$ puntos en $RR^n$. Entonces
   existe una proyección (generalmente aleatoria) $f: RR^n -> RR^k$ con:
-  $k = O(frac( log(m),epsilon^2))$
+  $k = O(log(m)/epsilon^2)$
   tal que para todo $x, y in S$,
-  $(1 - epsilon)||x - y||^2 <= ||f(x) - f(y)||^2 <= (1 + epsilon)||x - y||^2$
+  $(1 - epsilon) norm(x - y)^2 <= norm(f(x) - f(y))^2 <= (1 + epsilon) norm(x - y)^2$
   Es decir, las distancias euclidianas entre los puntos se preservan
   aproximadamente bajo la proyección.
 ]
