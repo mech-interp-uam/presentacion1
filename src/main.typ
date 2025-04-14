@@ -503,7 +503,7 @@ es decir una función $RR^n -> RR$
 ]
 
 
-#pagebreak(weak:true)
+#pagebreak(weak: true)
 
 === Polisemanticidad
 
@@ -513,31 +513,76 @@ que una neurona se tenga una gran activación
 
 === Direcciónes semánticas en CLIP
 
-// TODO: Juan
-Gender, Verb and Plurality axis
-Aquí se introduce la idea de papabras/tokens como vectores
+En el modelo CLIP, tanto imágenes como textos se proyectan en un espacio latente
+común. Dentro de este espacio, se ha observado que ciertas propiedades
+semánticas —como género, número, tipo gramatical o identidad visual— se
+representan mediante direcciones vectoriales específicas. \
+
+$d_plural = v_gatos - v_gato$\
+
+#speaker-note[
+  Esto significa que cambios conceptuales pueden modelarse como movimientos
+  lineales dentro del espacio de representación
+]
+
+#pagebreak(weak: true)
 
 == Hipótesis de reprecentaciónes Lineales
 
-#theorem-box[
-  // TODO: Juan
-  #lorem(40)
-]
+La hipótesis de representaciones lineales propone que las propiedades aprendidas
+por los modelos, ya sean semánticas o estructurales, están representadas de
+forma aproximadamente lineal en los espacios latentes.\
+
+Esto significa que, dadas las representaciones $h(x) in RR^n$ de una
+entrada $x$, existe una dirección $w in RR^n$ tal que el producto escalar
+$w^T h(x)$ se correlaciona fuertemente con la presencia de cierta propiedad.
 
 
 #speaker-note[
-  // TODO: Juan
-  a
+  Aunque no es un teorema formal, esta hipótesis está ampliamente respaldada por
+  observaciones empíricas en modelos de lenguaje, visión y multimodales.
 ]
-
+#pagebreak(weak: true)
 == Compressed sensing
 
-#lemma(title:"Johnson-Lindenstrauss")[
-  // TODO: Juan
-  #lorem(40)
+El marco del compressed sensing ofrece una manera de recuperar representaciones
+esparsas y significativas a partir de observaciones densas y aparentemente
+complejas. La idea clave es que, bajo ciertas condiciones de esparsidad e
+incoherencia, una señal de alta dimensión puede ser reconstruida a partir de
+un número reducido de mediciones.
+
+#speaker-note[
+  En este contexto, se asume que las representaciones latentes de los modelos
+  contienen una combinación de conceptos semánticos, y que para una entrada
+  típica, solo unos pocos están realmente activos. Recuperar estas componentes
+  latentes dispersas puede lograrse mediante técnicas de aprendizaje de
+  diccionario o autoencoders dispersos.
 ]
 
-== Aprendizade de diccionario
+#pagebreak(weak: true)
+
+#lemma(title: "Johnson-Lindenstrauss")[
+  Sea $0 < epsilon < 1$ y sea $S$ un conjunto de $m$ puntos en $RR^n$. Entonces
+  existe una proyección (generalmente aleatoria) $f: RR^n -> RR^k$ con:
+  $k = O(frac( log(m),epsilon^2))$
+  tal que para todo $x, y in S$,
+  $(1 - epsilon)||x - y||^2 <= ||f(x) - f(y)||^2 <= (1 + epsilon)||x - y||^2$
+  Es decir, las distancias euclidianas entre los puntos se preservan
+  aproximadamente bajo la proyección.
+]
+
+#speaker-note[
+  La importancia de este resultado en el contexto del análisis de
+  representaciones latentes radica en que nos permite proyectar vectores de alta
+  dimensión a espacios de menor dimensión conservando aproximadamente sus
+  distancias, lo cual facilita la recuperación de propiedades relevantes y
+  respalda la idea de que, aunque las representaciones sean densas, la
+  información semántica sigue siendo recuperable en dimensiones más reducidas
+  sin perder su estructura fundamental.
+]
+#pagebreak(weak: true)
+
+== Aprendizaje de diccionario
 // TODO: Juan
 #lorem(30)
 
