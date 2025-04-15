@@ -588,8 +588,8 @@ están encendidas (activas) en la muestra $i$.
 Para todo el conjunto de datos, con $N$ muestras, la penalización $L_0$ se
 puede escribir de forma compacta como:
 
-$L_0 = sum_(i=1)^(N) norm(z_i )_0,$ o, de forma más explícita:
-$L_0 = sum_(i=1)^(N) sum_(j=1)^(m) 1(z_(i,j) neq 0)$
+$L_0 = sum_(i=1)^N norm(z_i)_0,$ o, de forma más explícita:
+$L_0 = sum_(i=1)^N sum_(j=1)^m 1(z_(i,j) != 0)$
 
 
 #pagebreak(weak: true)
