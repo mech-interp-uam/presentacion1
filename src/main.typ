@@ -583,7 +583,7 @@ Si $z_i in RR^m$ es el vector de activaciones de la capa oculta para la
 muestra $i$, entonces la "norma" $L_0$ de $z_i$ se expresa como:
 
 $norm(z_i)_0 = abs({j : z_(i,j) != 0})$
-En otras palabras, $\| z_i \|_0$ es simplemente la cantidad de neuronas que
+En otras palabras, $norm(z_i)_0$ es simplemente la cantidad de neuronas que
 están encendidas (activas) en la muestra $i$.
 Para todo el conjunto de datos, con $N$ muestras, la penalización $L_0$ se
 puede escribir de forma compacta como:
