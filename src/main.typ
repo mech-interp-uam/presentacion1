@@ -537,12 +537,60 @@ Aquí se introduce la idea de papabras/tokens como vectores
   #lorem(40)
 ]
 
-== Aprendizade de diccionario
-// TODO: Juan
-#lorem(30)
+
+== Aprendizaje de diccionario
+
+El aprendizaje de diccionario es una técnica que busca encontrar un
+conjunto reducido de "átomos" o "direcciones" en un espacio de alta
+dimensión para representar datos a través de combinaciones lineales esparsas.\
+En el contexto de redes neuronales, se espera que cada átomo capturé un
+rasgo semántico significativo.\
+
+#speaker-note[Esto permite manipular y entender las representaciones latentes
+  de un modo más directo, reforzando la hipótesis de que la semántica puede
+  describirse de manera lineal y estructurada.]
+
+#pagebreak(weak: true)
+
+Sea $X in RR^(d times m)$ una matriz que contiene $m$ vectores de datos
+(o activaciones) en un espacio de dimensión $d$. El objetivo es encontrar
+un diccionario $D in RR^(d times k)$ y unos coeficientes esparsos
+$Z in RR^(k times m)$ que minimicen $ min_(D, Z)norm(X - D Z)_F^2$
+
+#speaker-note[
+  sujeto a que las columnas de $Z$ sean dispersas. A menudo se imponen
+  restricciones adicionales, como la normalización de las columnas de $D$
+  y límites en la cardinalidad de las columnas de $Z$.
+]
+#pagebreak(weak: true)
 
 == Autoencoders Dispersos
-// TODO: Juan
+
+Los sparse autoencoders respetan la estructura del "autoencoder simple"
+y simplemente se añade una función de penalización que fomenta activaciones
+promedio bajas en la capa latente, lo que provoca la dispersión.
+
+#pagebreak(weak: true)
+
+*Penalización $L_0$ *
+
+
+La penalización $L_0$ (a veces denominada “norma $L_0$”) se define como
+el número de elementos distintos de cero en un vector.\
+Si $z_i in RR^m$ es el vector de activaciones de la capa oculta para la
+muestra $i$, entonces la “norma” $L_0$ de $z_i$ se expresa como:
+
+$norm(z_i )_0 = |{j : z_{i,j} neq 0}|$
+En otras palabras, $\| z_i \|_0$ es simplemente la cantidad de neuronas que
+están encendidas (activas) en la muestra $i$.
+Para todo el conjunto de datos, con $N$ muestras, la penalización $L_0$ se
+puede escribir de forma compacta como:
+
+$L_0 = sum_(i=1)^(N) norm(z_i )_0,$ o, de forma más explícita:
+$L_0 = sum_(i=1)^(N) sum_(j=1)^(m) 1(z_(i,j) neq 0)$
+
+
+#pagebreak(weak: true)
 #import "@preview/suiji:0.3.0"
 
 #slide(composer: (auto, auto))[
@@ -626,12 +674,11 @@ Aquí se introduce la idea de papabras/tokens como vectores
     }
   ))
 ][
-  // TODO: Juan
-  - #lorem(5) #pause
+  - Función de penalización fomenta activaciones promedio bajas en capa latente.
 
-  - #lorem(5) #pause
+  - Espacio latente mayor que autoencoder simple.
 
-  - #lorem(5) #pause
+  - Activaciones dispersas.
 ]
 
 == Qué es la Interpretabilidad mecanicista?
