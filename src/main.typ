@@ -577,7 +577,7 @@ promedio bajas en la capa latente, lo que provoca la dispersión.
 === Penalización $L_0$
 
 
-La penalización $L_0$ (a veces denominada “norma $L_0$”) se define como
+La penalización $L_0$ (a veces denominada "norma $L_0$") se define como
 el número de elementos distintos de cero en un vector.\
 Si $z_i in RR^m$ es el vector de activaciones de la capa oculta para la
 muestra $i$, entonces la “norma” $L_0$ de $z_i$ se expresa como:
