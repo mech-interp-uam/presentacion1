@@ -544,11 +544,13 @@ El aprendizaje de diccionario es una técnica que busca encontrar un
 conjunto reducido de "átomos" o "direcciones" en un espacio de alta
 dimensión para representar datos a través de combinaciones lineales esparsas.\
 En el contexto de redes neuronales, se espera que cada átomo capturé un
-rasgo semántico significativo.\
+rasgo semántico significativo.
 
-#speaker-note[Esto permite manipular y entender las representaciones latentes
+#speaker-note[
+  Esto permite manipular y entender las representaciones latentes
   de un modo más directo, reforzando la hipótesis de que la semántica puede
-  describirse de manera lineal y estructurada.]
+  describirse de manera lineal y estructurada.
+]
 
 #pagebreak(weak: true)
 
@@ -572,7 +574,7 @@ promedio bajas en la capa latente, lo que provoca la dispersión.
 
 #pagebreak(weak: true)
 
-*Penalización $L_0$ *
+=== Penalización $L_0$
 
 
 La penalización $L_0$ (a veces denominada “norma $L_0$”) se define como
