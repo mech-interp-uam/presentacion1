@@ -58,7 +58,19 @@
 
 == Índice <touying:hidden>
 
-#components.adaptive-columns(outline(title: none, indent: 1em, depth: 1))
+#show outline.entry: it => block(
+  below: 2.5em,
+  it.indented(
+    it.prefix(),
+    it.body(),
+  ),
+)
+
+#components.adaptive-columns(outline(
+  title: none,
+  indent: 1em,
+  depth: 1,
+))
 
 = Introducción
 
