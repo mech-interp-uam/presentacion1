@@ -44,8 +44,8 @@
   config-info(
     title: [Exploración de modelos Transformers y su Interpretabilidad
         Mecanicista],
-    subtitle: [Parte 1. Interpretabilidad Mecanicista],
-    author: [Hernández Peralta Sergio Antonio, Juan Emmanuel Cuéllar Lugo, \
+    subtitle: [Proyecto de investigación, parte 1],
+    author: [Sergio Antonio Hernández Peralta, Juan Emmanuel Cuéllar Lugo, \
     Julia López Diego, Nathael Ramos Cabrera],
     logo: box(image("Logo_de_la_UAM_no_emblema.svg", width:36pt)),
   ),
@@ -65,18 +65,22 @@
 == A
 
 Las redes neuronales son modelos matemáticos que actualmente poseen capacidades
-impresionantes. Desde Traducción, generación de videos, creación de programas,
+// Agregar un para algo
+impresionantes, desde traducción, generación de videos, creación de programas,
 etc.
 
 == Realizado
 // No me gusta, cambiar púnto
-- Entrenamos una red neuronal para la "ingeniería inversa" de un
-  gran modelo de lenguaje.
+- Entrenamos una red neuronal para la "ingeniería inversa" de los
+  modelos grandes de lenguaje
 - Creamos un sitio web con cuadernos digitales educativos
 
 == Motivación
 
-Black box, etc
+#remark[
+  Las redes neuronales se utilizan para aproximar funciones, sin embargo sus
+  parámetros no son naturalmente interpretables.
+]
 
 
 
@@ -86,10 +90,11 @@ Black box, etc
 == Redes neuronales artificiales
 
 #definition[
-  Una _Red neuronal_ es una función paramétrica. Sus componentes principales con
-  funciones lineales, y funciones de "activación", como $f(x) = max(0, x)$,
-  $tanh(x)$, y entre otras. Sus entradas suelen ser vectores y las funciones de
-  activación se suelen aplicar componente por componente.
+  Una _Red neuronal_ es una composición de funciones paramétricas. Sus
+  componentes principales son funciones lineales, y funciones de "activación",
+  como $f(x) = max(0, x)$, $tanh(x)$, y entre otras. Sus entradas suelen ser
+  vectores y las funciones de activación se suelen aplicar componente por
+  componente.
 ]
 #example[
   llama3.2, dalle, etc
@@ -106,7 +111,11 @@ $
 $
 
 #pause
-- Término genérico
+
+Por ejemplo
+$
+  y = sigma^(2) (W^(2) sigma^(1)(W^(1)x + b^(1)) + b^(2))
+$
 
 == Activaciones y neuronas
 
@@ -165,28 +174,16 @@ $H(a) = cases(
 
 #pagebreak(weak: true)
 
-Por último la función *Softmax*
-
-Si tenemos: $z = (z_1, z_2, ..., z_K)$
-
-La funcion softmax se define como:
-$
-  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
-$
-
-donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
-y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 
 
 == Teorema de aproximación universal
 
 #theorem(
   title: (
-    "Teorema de aproximación universal. Hornik, Stinchcombe y White, 1989, 1991"
+    "Teorema de aproximación universal"
   )
 )[
-  Teorema de aproximación universal (Hornik, Stinchcombe y White, 1989, 1991)
-
+  #set text(size: 20pt)
   Sea $sigma: RR -> RR$ una función no constante, acotada y continua.
   Entonces, la familia de funciones de la forma:
   $F(x) = sum_(j=1)^N alpha_j sigma(w_j^top x + theta_j)$
@@ -200,16 +197,17 @@ y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 
 "Versión informal"
 
-Una red neuronal feedforward con una sola capa oculta, que utilice una función
-de activación no lineal adecuada (como la sigmoide), puede aproximar cualquier
+Una red neuronal feedforward con tres capas, que utilice una función de
+activación no lineal adecuada (como la sigmoide), puede aproximar cualquier
 función continua definida sobre un conjunto compacto de $RR^n$, con suficiente
 número de neuronas.
 
 
 == Redes neuronales Profundas
 
-Aquí se menciona que en práctica las redes se escalan en produndidad y altura. Y
-las redes actuales tienen cientos de capas.
+Las redes neuronales actuales consisten de una larga composición de funciones,
+incluyendo perceptrones multicapa, es importante notar que la teoría indica que
+un perceptrón con dos capas es suficiente.
 
 == Entrenamiento
 
@@ -557,6 +555,19 @@ Bkw:
   ]
 )
 
+=== Softmax
+Por último la función *Softmax*
+
+Si tenemos: $z = (z_1, z_2, ..., z_K)$
+
+La funcion softmax se define como:
+$
+  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
+$
+
+donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
+y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
+
 
 #fletcher-diagram(
   edge-corner-radius: 10pt,
@@ -637,7 +648,7 @@ $w^T h(x)$ se correlaciona fuertemente con la presencia de cierta propiedad.
 == Compressed sensing
 
 El marco del compressed sensing ofrece una manera de recuperar representaciones
-esparsas y significativas a partir de observaciones densas y aparentemente
+dispersas y significativas a partir de observaciones densas y aparentemente
 complejas. La idea clave es que, bajo ciertas condiciones de esparsidad e
 incoherencia, una señal de alta dimensión puede ser reconstruida a partir de
 un número reducido de mediciones.
