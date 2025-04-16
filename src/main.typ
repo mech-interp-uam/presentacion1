@@ -273,33 +273,11 @@ para evaluar la expresión resultante.
 
 == Retropropagación
 
-- Grafo asíclico dirigido
-
-Fwd:
-- Cada nodo calcula su resultado, guarda un estado interno
-
-#pagebreak(weak:true)
-Bkw:
-- Multiplicación vector matriz, la matriz no se materializa siempre
-- El nodo recive gradiente respecto a su salida
-- Lo usa para calcular el gradiente respecto a cada entrada
-- Pasa cada el $i$ esimo por su arista de entrada $i$ esimo
-
-#pagebreak(weak:true)
-#theorem[
-  Sea $f: RR^n -> RR$ una función escalar computada usando un grafo
-  computacional que es evaluada usando un total de $T$ operaciones elementales.
-
-  #pause
-  Entonces la retropropagación computa $gradient f$ usando no mas de $6T$
-  operaciones.
-]
-
-#pause
-
 #remark[
-  En la práctica, se observa de $2T$ a $3T$ en vez de $6T$.
+  La retropropagación es un algoritmo eficiente para calcular el gradiente.
 ]
+
+
 
 == ADAM
 
