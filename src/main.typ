@@ -105,16 +105,16 @@ etc.
 Parámetros: $W^((l)), b^((l))$
 $
   a^((0)) &= x \
-  z^((l)) &= W^((l)) a^((l-1)) + b^((l)) && quad "(preactivaciónes)" \
+  z^((l)) &= W^((l)) a^((l-1)) + b^((l)) && quad "(preactivaciones)" \
   #pause
-  a^((l)) &= sigma(z^((l))) && quad "(activaciónes)"
+  a^((l)) &= sigma^((l))(z^((l))) && quad "(activaciones)"
 $
 
 #pause
 
 Por ejemplo
 $
-  y = sigma^(2) (W^(2) sigma^(1)(W^(1)x + b^(1)) + b^(2))
+  y = sigma^((2)) (W^((2)) sigma^((1))(W^((1))x + b^((1))) + b^((2)))
 $
 
 == Activaciones y neuronas
@@ -207,14 +207,14 @@ número de neuronas.
 
 Las redes neuronales actuales consisten de una larga composición de funciones,
 incluyendo perceptrones multicapa, es importante notar que la teoría indica que
-un perceptrón con dos capas es suficiente.
+un perceptrón con tres capas es suficiente.
 
 == Entrenamiento
 
-=== Aprendizaje supervizado
+=== Aprendizaje supervisado
 - Optimizar un modelo para aproximar una función #pause
 
-- Los datos consisten de pares $(x,y)$ #pause
+- Los datos consisten de pares $(x,y)$ donde $y$ es aproximadamente $f(x)$ #pause
 
 - Función objetivo
 
@@ -236,8 +236,8 @@ Ejemplos:
 #pagebreak(weak:true)
 
 #remark[
-  Para entrenar una red neuronal, usamos optimización de primer orden, es decir,
-  basandonos en el gradiente
+  Para entrenar una red neuronal, usamos tradicionalmente optimización de primer
+  orden, es decir, basándonos en el gradiente
 ]
 
 == Retropropagación
@@ -581,7 +581,7 @@ y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 == Fenómenos
 
 === Neuronas monosemánticas
-La monosematicidad se refiere a un fenómeno observado en la redes neuronales profundas donde una neurona especifica representa claramente una única característica semánticas interpretable de la entrada.
+La monosematicidad se refiere a un fenómeno observado en la redes neuronales donde una neurona especifica representa claramente una única característica semánticas interpretable de la entrada.
 Entonces una neurona monosemántica se activa principalmente en respuesta a una sola característica de la entrada.
 
 
@@ -604,7 +604,7 @@ Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto
 
 La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
 una función escalar definida sobre una representación latente responde
-simultáneamente a múltiples características semánticas distintas de la entrada.
+simultáneamente a múltiples características semántica distintas de la entrada.
 
 #pagebreak(weak: true)
 
