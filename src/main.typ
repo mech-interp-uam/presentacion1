@@ -74,12 +74,11 @@
 
 = Introducción
 
-== A
+== Las redes neuronales
 
-Las redes neuronales son modelos matemáticos que actualmente poseen capacidades
-// Agregar un para algo
-impresionantes, desde traducción, generación de videos, creación de programas,
-etc.
+Las redes neuronales son modelos matemáticos para aproximár funciones que
+actualmente poseen capacidades impresionantes, desde traducción, generación de
+videos, creación de programas, etc.
 
 == Realizado
 // No me gusta, cambiar púnto
