@@ -108,7 +108,7 @@ videos, creación de programas, etc.
   componente.
 ]
 #example[
-  llama3.2, dalle, etc
+  llama3.2, dalle, ChatGPT, etc
 ]
 
 == Perceptrones multicapa
