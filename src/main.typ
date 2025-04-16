@@ -83,8 +83,8 @@ etc.
 
 == Realizado
 // No me gusta, cambiar púnto
-- Entrenamos una red neuronal para la "ingeniería inversa" de los
-  modelos grandes de lenguaje
+- Entrenamos una red neuronal para la "ingeniería inversa" de los modelos
+  grandes de lenguaje
 - Creamos un sitio web con cuadernos digitales educativos
 
 == Motivación
