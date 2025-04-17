@@ -194,7 +194,7 @@ $H(a) = cases(
     "Teorema de aproximación universal"
   )
 )[
-  #set text(size: 20pt)
+  #set text(size: 22pt)
   Sea $sigma: RR -> RR$ una función no constante, acotada y continua.
   Entonces, la familia de funciones de la forma:
   $F(x) = sum_(j=1)^N alpha_j sigma(w_j^top x + theta_j)$
@@ -225,7 +225,7 @@ un perceptrón con tres capas es suficiente.
 === Aprendizaje supervisado
 - Optimizar un modelo para aproximar una función #pause
 
-- Los datos consisten de pares $(x,y)$ donde $y$ es aproximadamente $f(x)$ #pause
+- Los datos consisten de pares $(x,y)$ donde $y approx f(x)$ #pause
 
 - Función objetivo
 
@@ -570,13 +570,15 @@ y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 == Fenómenos
 
 === Neuronas monosemánticas
-La monosematicidad se refiere a un fenómeno observado en la redes neuronales donde una neurona especifica representa claramente una única característica semánticas interpretable de la entrada.
-Entonces una neurona monosemántica se activa principalmente en respuesta a una sola característica de la entrada.
+La monosematicidad se refiere a un fenómeno observado en la redes neuronales
+donde una neurona especifica representa claramente una única característica
+semánticas interpretable de la entrada. Entonces una neurona monosemántica se
+activa principalmente en respuesta a una sola característica de la entrada.
 
+=== Ejemplos:
+- Neurona de sentimiento (reseñas de productos de Amazon)
+- Neurona Donald Trump en CLIP (espacio latente texto-imágen)
 
-#pagebreak(weak: true)
-
-Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto de una representación $h: X -> RR^n$, si la composición $f compose h$ depende principalmente de una única propiedad intepretable del espacio de entrada $X$
 
 #speaker-note[
   En esta nota al precentador, se explica detalladamente, con mucho texto:
@@ -592,47 +594,35 @@ Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto
 === Polisemanticidad
 
 La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
-una función escalar definida sobre una representación latente responde
-simultáneamente a múltiples características semántica distintas de la entrada.
-
-#pagebreak(weak: true)
-
-Podríamos considerar una función $f: RR^n -> RR$ polisemántica respecto a una
-representación $h: X -> RR^n$, si la composición $f compose h$ no dependte de
-múltiples propiedades distintas del espacio de entradas $X$, sin que una sola de
-ellas domine claramente sobre las demás.
-
-=== Direcciónes semánticas en CLIP
-
-En el modelo CLIP, tanto imágenes como textos se proyectan en un espacio latente
-común. Dentro de este espacio, se ha observado que ciertas propiedades
-semánticas —como género, número, tipo gramatical o identidad visual— se
-representan mediante direcciones vectoriales específicas. \
-
-$d_"plural" = v_"gatos" - v_"gato"$\
-
-#speaker-note[
-  Esto significa que cambios conceptuales pueden modelarse como movimientos
-  lineales dentro del espacio de representación
-]
+una neurona (componente de una salída de alguna capa) responde simultáneamente a
+múltiples características semánticas distintas de la entrada.
 
 #pagebreak(weak: true)
 
 == Hipótesis de reprecentaciónes Lineales
 
-La hipótesis de representaciones lineales propone que las propiedades aprendidas
-por los modelos, ya sean semánticas o estructurales, están representadas de
-forma aproximadamente lineal en los espacios latentes.\
+Una forma de explicar la polisemanticidad es que las características están
+representadas por vectores, pero no necesariamente por la base canónica (como en
+el caso de las neuronas interpretables) ni ortogonal. #pause
 
-Esto significa que, dadas las representaciones $h(x) in RR^n$ de una
-entrada $x$, existe una dirección $w in RR^n$ tal que el producto escalar
-$w^T h(x)$ se correlaciona fuertemente con la presencia de cierta propiedad.
+#pagebreak(weak: true)
 
+La *hipótesis de representaciones lineales* propone que las características
+semánticas están representadas de forma aproximadamente lineal en los espacios
+vectoriales de activaciones de los modelos.
 
 #speaker-note[
-  Aunque no es un teorema formal, esta hipótesis está ampliamente respaldada por
-  observaciones empíricas en modelos de lenguaje, visión y multimodales.
+  - Empirica
+  - Multimodal
+  - General
 ]
+
+=== Word2Vec
+
+// king man queen etc
+
+
+
 #pagebreak(weak: true)
 == Compressed sensing
 
