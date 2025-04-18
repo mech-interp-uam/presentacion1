@@ -12,6 +12,8 @@
 #set text(lang: "es")
 #let transparent = black.transparentize(100%)
 
+#let v_color = rgb("ffe066")
+
 #let blob(pos, label, tint: white, hidden:false, ..args) = node(
   pos, align(center,
     if hidden {text(fill: black.transparentize(100%), label)} else {label}
@@ -26,8 +28,12 @@
 #let plusnode(pos, ..args) = node(pos, $ plus.circle $, inset:-5pt, ..args)
 
 #let edge-hidden(hidden: false, ..args) = {
-  if hidden {edge(stroke: transparent, ..args)}
-  else {edge(..args)}
+  let named = args.named()
+  // Solo insertar/modificar stroke si tenemos hidden
+  if hidden {
+    named.insert("stroke", transparent)
+  }
+  edge(..args.pos(), ..named)
 }
 
 // cetz and fletcher bindings for touying
@@ -253,27 +259,8 @@ Ejemplos:
 
 == Retropropagación
 
-Cómo tomamos la derivada de programa arbitrariamente complicado?
-
-
-#pagebreak(weak:true)
-
-Una primera idea es hacer un pequeño cambio  en cada dimensión en el espacio de
-sus parámetros, pero eso costaría tantas evaluaciones como hay parámetros.
-- Redes neuronales actuales tienes billones de parámetros.
-
-#pagebreak(weak:true)
-
-Otra idea es calcular la derivada a lapiz y papel, y luego hacer un programa
-para evaluar la expresión resultante.
-
-- Explosión en exponencial en complejidad al repetir operaciones
-
-
-== Retropropagación
-
 #remark[
-  La retropropagación es un algoritmo eficiente para calcular el gradiente.
+  La retropropagación es un algoritmo para calcular el gradiente.
 ]
 
 
@@ -433,6 +420,196 @@ para evaluar la expresión resultante.
 
 == Transformers
 
+=== Softmax
+- Pasar de vectores, a distribuciones (discretas)
+
+$
+  z &= (z_1, z_2, ..., z_T)
+  #pause \
+  z' &= (exp(z_1), exp(z_2), ..., exp(z_T))
+$
+  #pause
+$
+  "Softmax"(z) &= z'/norm(z')
+$
+
+#pagebreak(weak: true)
+
+// === Autoatención
+
+// #align(center, cetz-canvas({
+//   import cetz.draw
+//   let arrow-style = fill => (
+//     mark: (end: "triangle", fill:fill, scale:1.1),
+//     stroke: 2.7pt+fill
+//   )
+//   let n = 5
+//   let spacing = 3.5
+//   let widthof(body) = context {
+//     measure(body).width.cm()
+//   }
+//   let shift = widthof($x_i$)
+//
+//   for i in range(1, n+1) {
+//     draw.content(
+//       (i * spacing, 0),
+//       $x_#i$,
+//       name: "prex" + str(i),
+//     )
+//     // hack para tener un north anchor como si el el subindice no lo desplazara
+//     // TODO: explicar esto mejor
+//
+//     // Uno quisiera usar measure y .width(), para medir el desplazamiento que
+//     // incurre agregar el subindice pero no se puede sin un `context` block el
+//     // cual regresa un opaco (no introspección, etc) objeto de tipo `content` a
+//     // diferencia del float que queremos para usar para desplazar las flechas de
+//     // arriba de x
+//     draw.content(
+//       "prex" + str(i)+ ".north-west",
+//       text(fill: transparent, $x$),
+//       name: "x" + str(i),
+//       anchor: "north-west",
+//     )
+//     draw.line("x" + str(i) + ".north", (rel: (0,1)), (rel: (1,0)),..arrow-style(yellow))
+//     draw.line("x" + str(i) + ".north", (rel: (0,2)), ..arrow-style(red))
+//   }
+// }))
+
+// --- Fletcher equivalent of the autoatención diagram, now on a slide ---
+
+#let edge-corner-radius = 0.2cm
+#slide(repeat: 5, self => align(center, fletcher-diagram(
+  edge-corner-radius: edge-corner-radius,
+  edge-stroke: 0.1cm,
+  mark-scale: 50%,
+  {
+    let (uncover, only, alternatives) = utils.methods(self)
+    let n = 5
+    let spacing = 4.0cm
+    let height1 = 2.7cm
+    for i in range(1, n+1) {
+      node(
+        (i * spacing, 0cm),
+        $x_#i$,
+        name: "x" + str(i),
+      )
+
+      let qkv = {
+        node(
+          (rel: (-1cm, 2.7cm), to: (name: "x" + str(i), anchor: "north")),
+          $q_#i$,
+          name: "q" + str(i),
+        )
+        node(
+          (rel: (0cm, 2.7cm), to: (name: "x" + str(i), anchor: "north")),
+          $k_#i$,
+          name: "k" + str(i),
+        )
+        node(
+          (rel: (1cm, 2.7cm), to: (name: "x" + str(i), anchor: "north")),
+          $v_#i$,
+          name: "v" + str(i),
+        )
+
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (rel: (-1cm, 0cm)),
+          (rel: (0cm, 1cm)),
+          stroke: rgb("e6b800"),
+          "-|>",
+        )
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (rel: (0cm, 2cm)),
+          stroke: blue,
+          "-|>",
+        )
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (rel: (1cm, 0cm)),
+          (rel: (0cm, 1cm)),
+          stroke: red,
+          "-|>",
+        )
+      }
+
+      if self.subslide == 2 {qkv} else {fletcher.hide(qkv)}
+    }
+
+    // New named code block: x4arrow
+    node((rel: (0cm, 2cm), to: (name: "k4", anchor: "south")), name: "kpoint")
+    node((rel: (1.1cm, 0cm), to: (name: "kpoint")), name: "vpoint")
+    let x4out = {
+      edge(
+        (name: "x4", anchor: "north"),
+        (name: "kpoint"),
+        stroke: blue,
+        "-|>",
+      )
+    }
+
+    // New named code block: x123arrows
+    let x123arrows = {
+      for i in range(1, 4) {
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (name: "k" + str(i), anchor: "south"),
+          (
+            (name: "k" + str(i), anchor: "south"),
+            "-|",
+            "x4"
+          ),
+          // Just enogh to cover the rounded corner
+          (rel: (0cm, edge-corner-radius)),
+          stroke: blue,
+          snap-to: (auto, none)
+        )
+      }
+      for i in range(1, 4+1) {
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (
+            (rel: (0cm, 1cm), to: (name: "x" + str(i), anchor: "north")),
+            "-|",
+            (name: "vpoint"),
+          ),
+          (name: "vpoint"),
+          stroke: red,
+          "-|>",
+        )
+      }
+      // Alternatives does not preserve space like in polylux (which is a BUG
+      // BTW!) so let's wing it
+      let extra-space-l = 1.6em // relative measure so it scales with text size
+      let extra-space-r = 0.4em // relative measure so it scales with text size
+      let scalar = if self.subslide == 3 {$(q_4, k_t)$} else {
+        $#h(extra-space-l) alpha_t #h(extra-space-r)$
+      }
+      node(
+        (rel: (-0.8cm, 0.3cm), to: (name: "kpoint")),
+        $ sum_(j <= 4) #scalar v_t $,
+        inset: -1.0cm,
+      )
+    }
+    let top-arrow = {
+      edge(
+        (rel: (0cm, 2cm), to: (name: "kpoint")),
+        (rel: (0cm, 2cm)),
+        snap-to: (none, none),
+        "-|>",
+      )
+    }
+
+    if self.subslide >= 3 {x4out} else {fletcher.hide(x4out)}
+    if self.subslide >= 3 {x123arrows} else {fletcher.hide(x123arrows)}
+    if self.subslide >= 5 {top-arrow} else {fletcher.hide(top-arrow)}
+}
+)))
+
+
 #slide(
   repeat: 3,
   self => [
@@ -452,7 +629,7 @@ para evaluar la expresión resultante.
 
       edge((rel:(0pt, -25pt), to:<xi>), <xi>, "--|>"),
       edge(<xi>, <xip>, "-|>",
-        label: $x_i$,
+        label: $x^((i))$,
         label-pos: -9pt,
         label-side: right,
         label-sep: 18pt,
@@ -460,7 +637,7 @@ para evaluar la expresión resultante.
       edge(
         <xip>,
         <xipp>,
-        label: $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
+        label: $x^((i+1)) #uncover("2-", $= x^((i)) + sum_h h(x^((i))|"contexto")$)$,
         label-side: right,
         label-pos: -12pt,
         label-sep: 18pt,
@@ -469,7 +646,7 @@ para evaluar la expresión resultante.
       edge(
         <xipp>,
         (rel:(0pt, 25pt), to:<xipp.north>),
-        label: $x_(i+2) #uncover("3-", $= x_(i+1) + m(x_(i+1))$)$,
+        label: $x^((i+2)) #uncover("3-", $= x^((i+1)) + m(x^((i+1)))$)$,
         label-side: right,
         label-pos: -10pt,
         label-sep: 18pt,
@@ -544,18 +721,6 @@ para evaluar la expresión resultante.
   ]
 )
 
-=== Softmax
-Por último la función *Softmax*
-
-Si tenemos: $z = (z_1, z_2, ..., z_K)$
-
-La funcion softmax se define como:
-$
-  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
-$
-
-donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
-y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 
 
 #fletcher-diagram(
@@ -571,13 +736,33 @@ y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 
 === Neuronas monosemánticas
 La monosematicidad se refiere a un fenómeno observado en la redes neuronales
-donde una neurona especifica representa claramente una única característica
-semánticas interpretable de la entrada. Entonces una neurona monosemántica se
-activa principalmente en respuesta a una sola característica de la entrada.
+donde una neurona (componente la salida de alguna capa) especifica representa
+claramente una única característica semántica interpretable de la entrada.
 
+#let assignee = "Sergio"
+#pause
 === Ejemplos:
-- Neurona de sentimiento (reseñas de productos de Amazon)
-- Neurona Donald Trump en CLIP (espacio latente texto-imágen)
+Neurona de sentimiento en generador de texto (2017)#pause
+#speaker-note[
+  #assignee
+  - Aprendió a clasisficar reseñas positivas/negativas a nivel state-of-the-art
+  - No supervisado
+  - Influencia directa en el texto generado
+
+
+  https://arxiv.org/pdf/1704.01444
+]
+
+Neurona Donald Trump en CLIP (espacio latente texto-imágen)
+#speaker-note[
+  #assignee
+  - En muchos otros modelos de la época
+  - Multimodal
+  - Imágenes / Texto / Fotos / Divujos
+  - 2021
+
+  https://distill.pub/2021/multimodal-neurons/
+]
 
 
 #speaker-note[
@@ -593,17 +778,28 @@ activa principalmente en respuesta a una sola característica de la entrada.
 
 === Polisemanticidad
 
-La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
-una neurona (componente de una salída de alguna capa) responde simultáneamente a
-múltiples características semánticas distintas de la entrada.
+Fenómeno donde  no hay una sola característica semantica a la cual responda una
+neurona. #pause
+
+Casi siempre este es el caso.
 
 #pagebreak(weak: true)
+
+== Word2Vec
+
+a
+// king man queen etc
 
 == Hipótesis de reprecentaciónes Lineales
 
 Una forma de explicar la polisemanticidad es que las características están
 representadas por vectores, pero no necesariamente por la base canónica (como en
-el caso de las neuronas interpretables) ni ortogonal. #pause
+el caso de las neuronas interpretables) ni ortogonal.
+
+#speaker-note[
+  Es decir, algo más general que esperar que una sola neurona (base canónica)
+  sea interpretable
+]
 
 #pagebreak(weak: true)
 
@@ -611,15 +807,8 @@ La *hipótesis de representaciones lineales* propone que las características
 semánticas están representadas de forma aproximadamente lineal en los espacios
 vectoriales de activaciones de los modelos.
 
-#speaker-note[
-  - Empirica
-  - Multimodal
-  - General
-]
+#pagebreak(weak: true)
 
-=== Word2Vec
-
-// king man queen etc
 
 
 
@@ -643,13 +832,7 @@ un número reducido de mediciones.
 #pagebreak(weak: true)
 
 #lemma(title: "Johnson-Lindenstrauss")[
-  Sea $0 < epsilon < 1$ y sea $S$ un conjunto de $m$ puntos en $RR^n$. Entonces
-  existe una proyección (generalmente aleatoria) $f: RR^n -> RR^k$ con:
-  $k = O(log(m)/epsilon^2)$
-  tal que para todo $x, y in S$,
-  $(1 - epsilon) norm(x - y)^2 <= norm(f(x) - f(y))^2 <= (1 + epsilon) norm(x - y)^2$
-  Es decir, las distancias euclidianas entre los puntos se preservan
-  aproximadamente bajo la proyección.
+  Se puede embeber cualquier subconjunto de $n$ puntos en $RR^k$ 
 ]
 
 #speaker-note[
