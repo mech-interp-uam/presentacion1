@@ -267,27 +267,8 @@ Ejemplos:
 
 == Retropropagación
 
-Cómo tomamos la derivada de programa arbitrariamente complicado?
-
-
-#pagebreak(weak:true)
-
-Una primera idea es hacer un pequeño cambio  en cada dimensión en el espacio de
-sus parámetros, pero eso costaría tantas evaluaciones como hay parámetros.
-- Redes neuronales actuales tienes billones de parámetros.
-
-#pagebreak(weak:true)
-
-Otra idea es calcular la derivada a lapiz y papel, y luego hacer un programa
-para evaluar la expresión resultante.
-
-- Explosión en exponencial en complejidad al repetir operaciones
-
-
-== Retropropagación
-
 #remark[
-  La retropropagación es un algoritmo eficiente para calcular el gradiente.
+  La retropropagación es un algoritmo para calcular el gradiente
 ]
 
 
