@@ -88,24 +88,17 @@
 
 = Introducción
 
-== Las redes neuronales
+== Resumen
 
-Las redes neuronales son modelos matemáticos para aproximár funciones que
-actualmente poseen capacidades impresionantes, desde traducción, generación de
-videos, creación de programas, etc.
+Las redes neuronales, aunque impresionantes en sus capasidades, no son
+naturalmente enterpretables. En este trabajo, nosotros:
+#pause
 
-== Realizado
-// No me gusta, cambiar púnto
 - Entrenamos una red neuronal para la "ingeniería inversa" de los modelos
   grandes de lenguaje
+  #pause
+
 - Creamos un sitio web con cuadernos digitales educativos
-
-== Motivación
-
-#remark[
-  Las redes neuronales se utilizan para aproximar funciones, sin embargo sus
-  parámetros no son naturalmente interpretables.
-]
 
 
 
