@@ -716,7 +716,7 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
 == Bloque de Transformer
 #slide(
   repeat: 3,
-  self => [
+  self => align(center)[
     #let (only, uncover, alternatives) = utils.methods(self)
 
     #let edge-corner-radius = 10pt
@@ -727,30 +727,30 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
       edge-corner-radius: edge-corner-radius,
       edge-stroke: 0.9pt,
 
-      node((0,0), name: <xi>),
-      plusnode((rel:(0pt, 117pt), to:<xi>),        name: <xip>),
-      plusnode((rel:(0pt, 117pt), to:<xip.north>), name: <xipp>),
+      node((0,0), name: <xl>),
+      plusnode((rel:(0pt, 117pt), to:<xl>),        name: <xlp>),
+      plusnode((rel:(0pt, 117pt), to:<xlp.north>), name: <xlpp>),
 
-      edge((rel:(0pt, -25pt), to:<xi>), <xi>, "--|>"),
-      edge(<xi>, <xip>, "-|>",
-        label: $x_i$,
+      edge((rel:(0pt, -25pt), to:<xl>), <xl>, "--|>"),
+      edge(<xl>, <xlp>, "-|>",
+        label: $x^((l))$,
         label-pos: -9pt,
         label-side: right,
         label-sep: 18pt,
       ),
       edge(
-        <xip>,
-        <xipp>,
-        label: $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
+        <xlp>,
+        <xlpp>,
+        label: $x^((l+1)) #uncover("2-", $= x^((l)) + sum_h h(x^((l))|"contexto")$)$,
         label-side: right,
         label-pos: -12pt,
         label-sep: 18pt,
         "-|>",
       ),
       edge(
-        <xipp>,
-        (rel:(0pt, 25pt), to:<xipp.north>),
-        label: $x_(i+2) #uncover("3-", $= x_(i+1) + m(x_(i+1))$)$,
+        <xlpp>,
+        (rel:(0pt, 25pt), to:<xlpp.north>),
+        label: $x^((l+2)) #uncover("3-", $= x^((l+1)) + m(x^((l+1)))$)$,
         label-side: right,
         label-pos: -10pt,
         label-sep: 18pt,
@@ -758,7 +758,7 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
       ),
 
       node(
-        enclose: (<xi>, <xip>, <xipp>, <mha>, <mlp>),
+        enclose: (<xl>, <xlp>, <xlpp>, <mha>, <mlp>),
         fill: green.transparentize(70%),
         snap: false,
         corner-radius: 10pt,
@@ -769,24 +769,24 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
       {
         let hidden = self.subslide < 2
         node(
-          (rel:(-second-col-offset, branch-off-offset), to:<xi>),
+          (rel:(-second-col-offset, branch-off-offset), to:<xl>),
           name:<mha-pre>,
         )
         edge-hidden(
-          (<xi>, "|-", (rel:(0pt, -edge-corner-radius), to:<mha-pre>)),
-          (<xi>, "|-", <mha-pre>),
+          (<xl>, "|-", (rel:(0pt, -edge-corner-radius), to:<mha-pre>)),
+          (<xl>, "|-", <mha-pre>),
           <mha-pre>,
           <mha>, "-|>",
           hidden:hidden,
         )
         blob(
-          (<mha-pre>, 50%, (<mha-pre>, "|-", <xip>)),
+          (<mha-pre>, 50%, (<mha-pre>, "|-", <xlp>)),
           [Autoatención\ multicabezal],
           tint: orange,
           name: <mha>,
           hidden: hidden,
         )
-        edge-hidden(<mha>, (<mha>, "|-", <xip>), <xip>, "-|>",
+        edge-hidden(<mha>, (<mha>, "|-", <xlp>), <xlp>, "-|>",
           hidden: hidden,
         )
       },
@@ -794,19 +794,19 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
       {
         let hidden = self.subslide < 3
         node(
-          (rel:(-second-col-offset, branch-off-offset), to:<xip.north>),
+          (rel:(-second-col-offset, branch-off-offset), to:<xlp.north>),
           name:<mlp-pre>,
         )
         edge-hidden(
-          (<xip>, "|-", (rel:(0pt, -edge-corner-radius), to: <mlp-pre>)),
-          (<xip>, "|-", <mlp-pre>),
+          (<xlp>, "|-", (rel:(0pt, -edge-corner-radius), to: <mlp-pre>)),
+          (<xlp>, "|-", <mlp-pre>),
           <mlp-pre>,
           <mlp>,
           hidden:hidden,
           "-|>",
         )
         blob(
-          (<mlp-pre>, 50%, (<mlp-pre>, "|-", <xipp>)),
+          (<mlp-pre>, 50%, (<mlp-pre>, "|-", <xlpp>)),
           [Perceptrón\ Multicapa],
           tint: blue,
           name: <mlp>,
@@ -814,8 +814,8 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
         )
         edge-hidden(
           <mlp>,
-          (<mlp>, "|-", <xipp>),
-          <xipp>,
+          (<mlp>, "|-", <xlpp>),
+          <xlpp>,
           hidden: hidden,
           "-|>",
         )
