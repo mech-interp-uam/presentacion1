@@ -825,13 +825,21 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
   ]
 )
 
+
 == Definición
-#fletcher-diagram(
-  edge-corner-radius: 10pt,
-  edge-stroke: 0.9pt,
-  blob((0,0),  none, height:50pt, tint:green),
-  blob((0,-1), none, height:50pt, tint:green),
-)
+#slide(composer: (2fr, 5fr))[
+  #fletcher-diagram(
+    edge-corner-radius: 10pt,
+    edge-stroke: 0.9pt,
+    blob((0,0),  none, height:50pt, tint:green),
+    blob((0,-1), none, height:50pt, tint:green),
+  )
+][
+  #definition[
+    Un transformer $"consiste"^*$ en una capa de embeding, una serie
+    de bloques de transformer, y al final un $"Softmax"$
+  ]
+]
 
 = Interpretabilidad mecanicista
 
