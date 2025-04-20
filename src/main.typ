@@ -431,8 +431,9 @@ para evaluar la expresión resultante.
 ]
 
 
-== Transformers
+= Transformers
 
+== Bloque de Transformer
 #slide(
   repeat: 3,
   self => [
@@ -544,7 +545,7 @@ para evaluar la expresión resultante.
   ]
 )
 
-=== Softmax
+== Softmax
 Por último la función *Softmax*
 
 Si tenemos: $z = (z_1, z_2, ..., z_K)$
@@ -558,6 +559,7 @@ donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
 y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
 
 
+== Definición
 #fletcher-diagram(
   edge-corner-radius: 10pt,
   edge-stroke: 0.9pt,
