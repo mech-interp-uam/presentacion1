@@ -52,3 +52,6 @@ Creative Commons Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0). Ha
 sido modificado para eliminar el texto que lo rodeaba. Para más detalles,
 consulta la fuente original en Wikimedia Commons:
 [Más información](https://commons.wikimedia.org/wiki/File:Logo_de_la_UAM.svg)
+
+La imágen de Golden Gate Claude se puede encontrar
+[aquí](https://transformer-circuits.pub/2024/scaling-monosemanticity/)

@@ -833,16 +833,84 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
 
 = Interpretabilidad mecanicista
 
+== Motivación
+Este proceso de optimización nos da funciones, (pilas de matrices) que
+poseen habilidades impresionantes, nunca pudimos programar algo así.
+#pause
+
+Ver a sus entradas/salidas (incluso si son explicaciones en texto de sus
+propios comportamientos) no es fiable.
+
+#speaker-note[
+  papers:
+    - Let's think dot by dot
+    - Circuit Tracing
+    - Alignment faking
+]
+
+== Definición
+// Intención: Aquí se describe en general haciendo una analogía explicita con la
+// ingeniería inversa (as in computer science) y no tan explicita con la
+// biología molecular (por la escala pequeña de investigación) quizas solo usar
+// palabras como crecer (en el sentido de crecer/cultivar plantas) (las redes
+// neuronales no se programan explicitamente, ses crecen como plantas)
+#definition[
+  La interpretabilidad mecanicista busca _descompilar_ las redes neuronales,
+  diseccionar pesos y activaciones para analizar y manipular los
+  _mecanismos internos_
+]
+
+== Logros
+Algunos logros de este campo son:
+#pause
+
+- Hacer a un modelo olvidar algo en específico: p.ej. Francés
+  #pause
+
+- Encontrar mecanismos comúnes en los modelos grandes de lenguaje actuales
+#speaker-note[
+  - Induction heads
+  - Indirect object attribution circuit
+]
+#pause
+
+- Manupular el proceso interno de razonamiento-multi-paso
+
 == Fenómenos
 
 === Neuronas monosemánticas
-La monosematicidad se refiere a un fenómeno observado en la redes neuronales donde una neurona especifica representa claramente una única característica semánticas interpretable de la entrada.
-Entonces una neurona monosemántica se activa principalmente en respuesta a una sola característica de la entrada.
+La monosematicidad se refiere a un fenómeno observado en la redes neuronales
+donde una neurona (componente la salida de alguna capa) especifica representa
+claramente una única característica semántica interpretable de la entrada.
+
+#let assignee = "Sergio"
+#pause
+=== Ejemplos:
+
+- Neurona de sentimiento en generador de texto (2017)#pause\
+#speaker-note[
+  #assignee
+  - Aprendió a clasisficar reseñas positivas/negativas a nivel state-of-the-art
+  - No supervisado
+  - Influencia directa en el texto generado
 
 
-#pagebreak(weak: true)
+  https://arxiv.org/pdf/1704.01444
+]
 
-Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto de una representación $h: X -> RR^n$, si la composición $f compose h$ depende principalmente de una única propiedad intepretable del espacio de entrada $X$
+- Neurona Donald Trump en CLIP (espacio latente texto-imágen)#pause\
+#speaker-note[
+  #assignee
+  - En muchos otros modelos de la época
+  - Multimodal
+  - Imágenes / Texto / Fotos / Divujos
+  - 2021
+
+  https://distill.pub/2021/multimodal-neurons/
+]
+
+- Neurona Perro (Llama 3.1 8B, neurona 1442 en capa 26)
+
 
 #speaker-note[
   En esta nota al precentador, se explica detalladamente, con mucho texto:
@@ -857,94 +925,92 @@ Podríamos considerar una función $f: RR^n -> RR$ monosemántica en el contexto
 
 === Polisemanticidad
 
-La polisemanticidad es un fenómeno observado en redes neuronales profundas donde
-una función escalar definida sobre una representación latente responde
-simultáneamente a múltiples características semántica distintas de la entrada.
+Fenómeno donde  no hay una sola característica semantica a la cual responda una
+neurona. #pause
+
+Casi siempre este es el caso.
 
 #pagebreak(weak: true)
 
-Podríamos considerar una función $f: RR^n -> RR$ polisemántica respecto a una
-representación $h: X -> RR^n$, si la composición $f compose h$ no dependte de
-múltiples propiedades distintas del espacio de entradas $X$, sin que una sola de
-ellas domine claramente sobre las demás.
+== Word2Vec
 
-=== Direcciónes semánticas en CLIP
+Word2Vec es un modelo entrenado para codificar palabras a vectores.
+#pause
 
-En el modelo CLIP, tanto imágenes como textos se proyectan en un espacio latente
-común. Dentro de este espacio, se ha observado que ciertas propiedades
-semánticas —como género, número, tipo gramatical o identidad visual— se
-representan mediante direcciones vectoriales específicas. \
+Se encontraron ejemplos donde las direcciones tenían significado (también
+observado en modelos anteriores)
+#pause
 
-$d_"plural" = v_"gatos" - v_"gato"$\
-
+$
+  "París" - "Francia" + "Italia" & approx "Roma" \
+  "Rey"   - "Hombre"  + "Mujer"  & approx "Reina"
+$
 #speaker-note[
-  Esto significa que cambios conceptuales pueden modelarse como movimientos
-  lineales dentro del espacio de representación
+  Cosine similarity
 ]
-
-#pagebreak(weak: true)
 
 == Hipótesis de reprecentaciónes Lineales
 
-La hipótesis de representaciones lineales propone que las propiedades aprendidas
-por los modelos, ya sean semánticas o estructurales, están representadas de
-forma aproximadamente lineal en los espacios latentes.\
-
-Esto significa que, dadas las representaciones $h(x) in RR^n$ de una
-entrada $x$, existe una dirección $w in RR^n$ tal que el producto escalar
-$w^T h(x)$ se correlaciona fuertemente con la presencia de cierta propiedad.
-
+Una forma de explicar la polisemanticidad es que las características están
+representadas por direcciones en el espacio de activaciones, pero no
+necesariamente por la base canónica (como en el caso de las neuronas
+interpretables) ni ortogonal.
 
 #speaker-note[
-  Aunque no es un teorema formal, esta hipótesis está ampliamente respaldada por
-  observaciones empíricas en modelos de lenguaje, visión y multimodales.
+  Es decir, algo más general que esperar que una sola neurona (base canónica)
+  sea interpretable
 ]
+
 #pagebreak(weak: true)
+
+La *hipótesis de representaciones lineales* propone que las características
+semánticas están representadas de forma aproximadamente lineal en los espacios
+vectoriales de activaciones de los modelos.
+
 == Compressed sensing
 
-El marco del compressed sensing ofrece una manera de recuperar representaciones
-dispersas y significativas a partir de observaciones densas y aparentemente
-complejas. La idea clave es que, bajo ciertas condiciones de esparsidad e
-incoherencia, una señal de alta dimensión puede ser reconstruida a partir de
-un número reducido de mediciones.
-
-#speaker-note[
-  En este contexto, se asume que las representaciones latentes de los modelos
-  contienen una combinación de conceptos semánticos, y que para una entrada
-  típica, solo unos pocos están realmente activos. Recuperar estas componentes
-  latentes dispersas puede lograrse mediante técnicas de aprendizaje de
-  diccionario o autoencoders dispersos.
-]
-
-#pagebreak(weak: true)
-
 #lemma(title: "Johnson-Lindenstrauss")[
-  Sea $0 < epsilon < 1$ y sea $S$ un conjunto de $m$ puntos en $RR^n$. Entonces
-  existe una proyección (generalmente aleatoria) $f: RR^n -> RR^k$ con:
-  $k = O(log(m)/epsilon^2)$
-  tal que para todo $x, y in S$,
-  $(1 - epsilon) norm(x - y)^2 <= norm(f(x) - f(y))^2 <= (1 + epsilon) norm(x - y)^2$
-  Es decir, las distancias euclidianas entre los puntos se preservan
-  aproximadamente bajo la proyección.
+  Sea $A$ una matriz $m times n$ con entradas iid normales estandar. Entonces,
+  para cualquier conjunto de $k$ vectores en $RR^n$, la función
+  $
+    f(x) = 1/sqrt(m) A x
+  $
+  Preserva las distancias vector a vector hasta un factor de
+  $(1 plus.minus epsilon)$ con probabilidad de almenos $1 slash k$ si
+  $
+    k <= exp(m epsilon^2 slash 8)
+  $
 ]
 
 #speaker-note[
-  La importancia de este resultado en el contexto del análisis de
-  representaciones latentes radica en que nos permite proyectar vectores de alta
-  dimensión a espacios de menor dimensión conservando aproximadamente sus
-  distancias, lo cual facilita la recuperación de propiedades relevantes y
-  respalda la idea de que, aunque las representaciones sean densas, la
-  información semántica sigue siendo recuperable en dimensiones más reducidas
-  sin perder su estructura fundamental.
+https://cims.nyu.edu/~cfgranda/pages/OBDA_spring16/material/random_projections.pdf
 ]
+
 #pagebreak(weak: true)
+
+#remark[
+  En $RR^m$ podemos escoger exponencialmente más vectores casi ortogonales que
+  ortogonales conforme $m$ incrementa
+]
+
+#speaker-note[
+  (casi) preservar distancias $=>$ (casi) preservar ángulos
+
+  Prob $> 0$ significa que existe tal matrix
+
+  Aplicar $A$ a base orthonormal $RR^n$ 
+]
+
 
 == Aprendizaje de diccionario
-// TODO: Juan
-#lorem(30)
+
+Dado el lema anterior, y la dispersión de los datos, las activaciones podrían
+contener muchas más características semánticas que dimensiones.
+
+El aprendizaje de diccionario es un método no supervisado para descomponer las
+activaciones para que sean más entendibles
 
 == Autoencoders Dispersos
-// TODO: Juan
 #import "@preview/suiji:0.3.0"
 
 #slide(composer: (auto, auto))[
@@ -1028,22 +1094,21 @@ un número reducido de mediciones.
     }
   ))
 ][
-  // TODO: Juan
-  - #lorem(5) #pause
+  - Función identidad con restricciones
+  #pause
 
-  - #lorem(5) #pause
+  - Penalización para dispersión
+  #pause
 
-  - #lorem(5) #pause
+  - Encontrar una base sobrecompleta en sus entradas
 ]
 
-== Qué es la Interpretabilidad mecanicista?
+== Golden Gate Claude
 
-// TODO: Juan
-Aquí se describe en general haciendo una analogía explicita con la ingeniería
-inversa (as in computer science) y no tan explicita con la biología molecular
-(por la escala pequeña de investigación) quizas solo usar palabras como crecer
-(en el sentido de crecer/cultivar plantas) (las redes neuronales no se programan
-explicitamente, ses crecen como plantas)
+#image("golden-gate-claude.png")
+#speaker-note[
+  https://transformer-circuits.pub/2024/scaling-monosemanticity/
+]
 
 = Aprendizaje de Diccionario en llama 3.2 1B
 
