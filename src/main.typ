@@ -1107,7 +1107,7 @@ activaciones para que sean más entendibles
   - Función identidad con restricciones
   #pause
 
-  - $ell_0$
+  - Penalización para dispersión
   #pause
 
   - Encontrar una base sobrecompleta en sus entradas
