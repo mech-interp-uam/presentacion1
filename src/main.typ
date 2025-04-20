@@ -445,6 +445,21 @@ para evaluar la expresión resultante.
 - A cada elemento del vocabulario se le asigna un vector (parámetro aprendible)
 - Necesitamos vectores para aplicar redes neuronales
 
+== Softmax
+- Pasar de vectores a distribuciones (discretas)
+
+$
+  z &= (z_1, z_2, ..., z_T)
+  #pause \
+  z' &= (exp(z_1), exp(z_2), ..., exp(z_T))
+$
+  #pause
+$
+  "Softmax"(z) &= z'/norm(z')
+$
+#pause
+Permite que las salidas sean distribuciones sobre el vocabulario
+
 == Bloque de Transformer
 #slide(
   repeat: 3,
@@ -556,20 +571,6 @@ para evaluar la expresión resultante.
     )
   ]
 )
-
-== Softmax
-Por último la función *Softmax*
-
-Si tenemos: $z = (z_1, z_2, ..., z_K)$
-
-La funcion softmax se define como:
-$
-  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
-$
-
-donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
-y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
-
 
 == Definición
 #fletcher-diagram(
