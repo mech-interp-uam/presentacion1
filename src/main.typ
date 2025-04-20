@@ -1014,7 +1014,7 @@ https://cims.nyu.edu/~cfgranda/pages/OBDA_spring16/material/random_projections.p
 
 == Aprendizaje de diccionario
 
-Dado el lema anterior, y la dispersidad de los datos, las activaciones podrían
+Dado el lema anterior, y la dispersión de los datos, las activaciones podrían
 contener muchas más características semánticas que dimensiones.
 
 El aprendizaje de diccionario es un método no supervisado para descomponer las
