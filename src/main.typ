@@ -73,7 +73,7 @@
 == Índice <touying:hidden>
 
 #show outline.entry: it => block(
-  below: 2.5em,
+  below: 3.5em,
   it.indented(
     it.prefix(),
     it.body(),
@@ -1137,4 +1137,19 @@ activaciones para que sean más entendibles
 
 - Salida de el perceptrón multicapa 8 #pause
 
-- $"JumpReLU" (z | theta) = z dot.circle H(z - theta)$
+- $ "JumpReLU" (z | theta) = z dot.circle H(z - theta) $
+
+= Conclusión
+
+== Conclusión
+
+- Estudiamos los transformers y su interpretabilidad mecanicista #pause
+
+- Nuestro proyecto busca entender los mecanismos internos de Llama 3.2 1B #pause
+  - Usando aprendizaje de diccionario
+  - Enfocándonos en el perceptrón multicapa intermedio #pause
+
+- Próximos pasos:
+  - Completar el entrenamiento del autoencoder disperso
+  - Analizar los resultados
+  - Documentar los hallazgos
