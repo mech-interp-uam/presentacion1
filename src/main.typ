@@ -1061,6 +1061,15 @@ explicitamente, ses crecen como plantas)
 
   - El código para entrenamiento aún está en proceso
 
+== Llama 3.2 1B
+
+// TODO: Cómo hacer lode texto^*?
+- Es un modelo entrenado por meta, de licencia openweight$"s"^*$ destilado
+  apartir de Llama 3.1 8B #pause
+    - Diseñado para correr hasta en celulares #pause
+
+- Llama 3.1 8B asume un alto costo de entrenamiento como contraparte de su bajo
+  número de parámetros #pause
 
 == JumpReLU SAE
 
@@ -1069,4 +1078,5 @@ explicitamente, ses crecen como plantas)
 - $ell_0$ #pause
 
 - Salida de el perceptrón multicapa 8 #pause
-- $ "JumpReLU" (z | theta) = z dot.circle H(z - theta) $
+
+- $"JumpReLU" (z | theta) = z dot.circle H(z - theta)$
