@@ -433,6 +433,14 @@ para evaluar la expresión resultante.
 
 = Transformers
 
+
+== Tokenización
+
+- Tokenizar consiste en romper el texto en fragmentos #pause
+  - Cada byte $->$ vocabulario de 256
+  - Cada palabra $->$ vocabulario enorme
+  - En la práctica, es algo intermedio
+
 == Bloque de Transformer
 #slide(
   repeat: 3,
