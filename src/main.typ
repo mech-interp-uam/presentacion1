@@ -441,6 +441,10 @@ para evaluar la expresión resultante.
   - Cada palabra $->$ vocabulario enorme
   - En la práctica, es algo intermedio
 
+== Embedding
+- A cada elemento del vocabulario se le asigna un vector (parámetro aprendible)
+- Necesitamos vectores para aplicar redes neuronales
+
 == Bloque de Transformer
 #slide(
   repeat: 3,
