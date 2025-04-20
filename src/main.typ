@@ -110,9 +110,8 @@ naturalmente enterpretables. En este trabajo, nosotros:
 #definition[
   Una _Red neuronal_ es una composición de funciones paramétricas. Sus
   componentes principales son funciones lineales, y funciones de "activación",
-  como $f(x) = max(0, x)$, $tanh(x)$, y entre otras. Sus entradas suelen ser
-  vectores y las funciones de activación se suelen aplicar componente por
-  componente.
+  como $f(x) = max(0, x)$. Sus entradas suelen ser vectores y las funciones de
+  activación se suelen aplicar componente por componente.
 ]
 #example[
   llama3.2, dalle, ChatGPT, etc
@@ -161,36 +160,15 @@ $
 
 #pagebreak(weak: true)
 
-Otra función muy importancia es la función logística o sigmoide y se define como:
+La función de activación por defecto en muchas arquitecturas modernas es la
+función $"ReLU"$ (Rectified Linear Unit):
 
 $
-  sigma(x) = 1/(1 + e^(-x))
+  "ReLU"(x) = max(0, x)
 $
-
-su importacia en las redes neuronales multicapa se debe a que es una función
-suave, continua y diferenciable en todo $RR$.
 
 #pagebreak(weak: true)
 
-Otra función de activación es $"JumpReLU"$:
-
-
-$"JumpReLU"_theta(z_i) = cases(
-      z_i\, "si" z_i > theta_i,
-      0\, "en otro caso"
-    )
-$
-
-O de forma compacta: $"JumpReLU"_theta(z) = z dot.circle H(z - theta)$
-
-donde $H$ es la función escalón:
-
-$H(a) = cases(
-    1 "si" a > 0 ,
-    0 "si" a ≤ 0
-  )$
-
-#pagebreak(weak: true)
 #show table.cell.where(y: 0): strong
 #set table(
   stroke: (x, y) => if y == 0 {
@@ -232,9 +210,9 @@ $H(a) = cases(
 "Versión informal"
 
 Una red neuronal feedforward con tres capas, que utilice una función de
-activación no lineal adecuada (como la sigmoide), puede aproximar cualquier
-función continua definida sobre un conjunto compacto de $RR^n$, con suficiente
-número de neuronas.
+activación no lineal adecuada, puede aproximar cualquier función continua
+definida sobre un conjunto compacto de $RR^n$, con suficiente número de
+neuronas.
 
 == Entrenamiento
 
