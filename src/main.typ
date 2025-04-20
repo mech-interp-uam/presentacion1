@@ -8,9 +8,19 @@
 #import cosmos.clouds: *
 #show: show-theorion
 
+#let palette = (
+  "q": rgb("e6b800"),
+  "k": blue,
+  "v": red,
+  "out": gray.darken(30%),
+)
+#let innerproduct(x, y) = $lr(angle.l #x, #y angle.r)$
+
 #let sae-neuron-color = rgb("4a90e2")
 #set text(lang: "es")
 #let transparent = black.transparentize(100%)
+#let edge-corner-radius = 0.4cm
+#let node-corner-radius = 10pt
 
 #let blob(pos, label, tint: white, hidden:false, ..args) = node(
   pos, align(center,
@@ -26,8 +36,12 @@
 #let plusnode(pos, ..args) = node(pos, $ plus.circle $, inset:-5pt, ..args)
 
 #let edge-hidden(hidden: false, ..args) = {
-  if hidden {edge(stroke: transparent, ..args)}
-  else {edge(..args)}
+  let named = args.named()
+  // Solo insertar/modificar stroke si tenemos hidden
+  if hidden {
+    named.insert("stroke", transparent)
+  }
+  edge(..args.pos(), ..named)
 }
 
 // cetz and fletcher bindings for touying
@@ -433,10 +447,276 @@ para evaluar la expresión resultante.
 
 = Transformers
 
+
+== Tokenización
+
+- Tokenizar consiste en romper el texto en fragmentos #pause
+  - Cada byte $->$ vocabulario de 256
+  - Cada palabra $->$ vocabulario enorme
+  - En la práctica, es algo intermedio
+
+== Embedding
+- A cada elemento del vocabulario se le asigna un vector (parámetro aprendible)
+- Necesitamos vectores para aplicar redes neuronales
+
+== Softmax
+- Pasar de vectores a distribuciones (discretas)
+
+$
+  z &= (z_1, z_2, ..., z_T)
+  #pause \
+  z' &= (exp(z_1), exp(z_2), ..., exp(z_T))
+$
+  #pause
+$
+  "Softmax"(z) &= z'/norm(z')
+$
+#pause
+Permite que las salidas sean distribuciones sobre el vocabulario
+
+== Autoatención
+#slide(repeat: 6, self => align(center, fletcher-diagram(
+  edge-corner-radius: edge-corner-radius,
+  node-corner-radius: node-corner-radius,
+  edge-stroke: 0.1cm,
+  mark-scale: 45%,
+  {
+    let (uncover, only, alternatives) = utils.methods(self)
+    let T = 5
+    let t = if self.subslide <= 5 {4} else {3}
+    let spacing = 4.0cm
+    let height1 = 2.7cm
+    for t in range(1, T+1) {
+      node(
+        (t * spacing, 0cm),
+        $x^((l))_#t$,
+        inset: 0.6em,
+        name: "x" + str(t),
+      )
+
+      let qkv = {
+        node(
+          (rel: (-1cm, 2.7cm), to: (name: "x" + str(t), anchor: "north")),
+          $q_#t$,
+          name: "q" + str(t),
+        )
+        node(
+          (rel: (0cm, 2.7cm), to: (name: "x" + str(t), anchor: "north")),
+          $k_#t$,
+          name: "k" + str(t),
+        )
+        node(
+          (rel: (1cm, 2.7cm), to: (name: "x" + str(t), anchor: "north")),
+          $v_#t$,
+          name: "v" + str(t),
+        )
+
+        edge(
+          (name: "x" + str(t), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (rel: (-1cm, 0cm)),
+          (rel: (0cm, 1cm)),
+          stroke: palette.q,
+          "-|>",
+        )
+        edge(
+          (name: "x" + str(t), anchor: "north"),
+          (rel: (0cm, 2cm)),
+        stroke: palette.k,
+          "-|>",
+        )
+        edge(
+          (name: "x" + str(t), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (rel: (1cm, 0cm)),
+          (rel: (0cm, 1cm)),
+        stroke: palette.v,
+          "-|>",
+        )
+      }
+
+      if self.subslide == 2 {qkv} else {fletcher.hide(qkv)}
+    }
+
+    // New named code block: x4arrow
+    node((rel: (0cm, 2cm), to: (name: "k" + str(t), anchor: "south")), name: "kpoint")
+    // Id be nice if we could extract out from math mode the resulting distance
+    // between elements so we can use it here.
+    // Para esto existe la función measure, pero por performance reasons está
+    // solo se puede usar en un context block, el cual limita la los cambios que
+    // puedes hacer fuera de este y limita a regresar un objeto del opaco tipo
+    // content. Estas limitaciones son intencinales. Por lo tanto tendríamos que
+    // regresar el diagrama entero(?)
+    // TODO: intentar eso, wrap el diagrama entero en context {measure etc}
+
+    // Hardcoded extra distance for v :(
+    node((rel: (1.1cm, 0cm), to: "kpoint"), name: "vpoint")
+    // Hardcoded extra distance for q :(
+    node((rel: (-1.1cm, 0cm), to: "kpoint"), name: "qpoint")
+    let x4out = {
+      edge(
+        (name: "x" + str(t), anchor: "north"),
+        (name: "kpoint"),
+        stroke: palette.k,
+        "-|>",
+      )
+    }
+
+    // New named code block: x123arrows
+    let x123arrows = {
+      for i in range(1, t) {
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (name: "k" + str(i), anchor: "south"),
+          (
+            (name: "k" + str(i), anchor: "south"),
+            "-|",
+            "x" + str(t),
+          ),
+          // Just enogh to cover the rounded corner
+          (rel: (0cm, edge-corner-radius)),
+          stroke: palette.k,
+          snap-to: (auto, none)
+        )
+      }
+      for i in range(1, t+1) {
+        edge(
+          (name: "x" + str(i), anchor: "north"),
+          (rel: (0cm, 1cm)),
+          (
+            (rel: (0cm, 1cm), to: (name: "x" + str(i), anchor: "north")),
+            "-|",
+            "vpoint",
+          ),
+          (name: "vpoint"),
+          stroke: palette.v,
+          "-|>",
+        )
+      }
+      // Alternatives does not preserve space like in polylux (which is a BUG
+      // BTW!) so let's wing it
+      let alpha-extra-space-l = 2.0em // relative measure so it scales with text size
+      let alpha-extra-space-r = 0.0em // relative measure so it scales with text size
+      let scalar = if self.subslide == 3 {$innerproduct(q_#t, k_t)$} else {
+        $#h(alpha-extra-space-l) alpha_t #h(alpha-extra-space-r)$
+      }
+      node(
+        (rel: (-0.8cm, 0.3cm), to: "kpoint"),
+        $ sum_(t <= #t) #scalar v_t $,
+        inset: -1.0cm,
+      )
+    }
+
+    let q-arrow = {
+      edge(
+        (name: "x" + str(t), anchor: "north"),
+        (rel: (0cm, 1cm)),
+        (
+          (rel: (0cm, 1cm), to: (name: "x" + str(t), anchor: "north")),
+          "-|",
+          "qpoint"
+        ),
+        ..(if self.subslide == 3 {(
+          (name: "qpoint"),
+          )} else {(
+          (rel: (0cm, 0.5cm), to: "qpoint"),
+          (rel: (0.7cm, 0cm)),
+        )}),
+        stroke: rgb("e6b800"),
+        "-|>",
+      )
+    }
+
+    let top-arrow = {
+      edge(
+        (rel: (0cm, 2cm), to: (name: "kpoint")),
+        (name: "r", anchor: "south"),
+        snap-to: (none, none),
+        stroke: palette.out,
+        "-|>",
+      )
+    }
+
+    let rnode = {
+      node(
+        (rel: (0cm, 4.5cm), to: "kpoint"),
+        $r_#t$,
+        inset: 0.5em,
+        name: "r",
+      )
+    }
+
+    // Hard coded shift so the x are aligned
+    let xshift = 8.0em
+    let topx = {
+      node(
+        (rel: (xshift, 1.1cm), to: (name: "r", anchor: "north")),
+        $x^((l+1))_#t = r_#t + x^((l))_#t$,
+      )
+    }
+
+    let info = node(
+      (rel: (2cm, 10cm), to: "x1"),
+      fill: blue.transparentize(90%),
+      inset: 0.4cm,
+      align(left)[
+        #uncover("2-")[
+          Parámetros:\
+          #{
+            (
+              ("Q", rgb("e6b800")),
+              ("K", blue),
+              ("V", red),
+            )
+            .map(it => {
+              let sym   = it.at(0)
+              let color = it.at(1)
+              text(fill: palette.at(lower(sym)))[$W_#sym$]
+            })
+            .join($, $)
+          } \
+          #uncover("5-", text(fill: palette.out, $W_"O"$))
+        ]
+      ]
+    )
+
+
+    // // Alpha info node, hidden by default, shown with fletcher.hide logic
+    // let alpha-info = node(
+    //   (rel: (2cm, 7cm), to: "x1"), // 1.5cm below info node
+    //   align(left)[
+    //     #set text(size: 20pt)
+    //     $alpha = "Softmax"(innerproduct(q_#t, k_1), ..., innerproduct(q_#t, k_#t))$
+    //   ]
+    // )
+    //
+    // if self.subslide < 4 {fletcher.hide(alpha-info)} else {alpha-info}
+
+    if self.subslide >= 2 {info} else {fletcher.hide(info)}
+    if self.subslide >= 3 {x4out} else {fletcher.hide(x4out)}
+    if self.subslide >= 3 {x123arrows} else {fletcher.hide(x123arrows)}
+    if self.subslide >= 3 {q-arrow} else {fletcher.hide(q-arrow)}
+    if self.subslide >= 5 {top-arrow} else {fletcher.hide(top-arrow)}
+    if self.subslide >= 5 {rnode} else {fletcher.hide(rnode)}
+    if self.subslide >= 5 {topx} else {fletcher.hide(topx)}
+
+    // Node for correct bounding box so diagram does not grow this does not
+    // overflow
+    node((rel: (2.3cm, 0cm), to: (name: "x" + str(T))), [])
+}
+)))
+
+
+== Autoatención Multicabezal
+Cada cabezal realiza la _misma_ operación con su *propio* conjunto de parámetros
+aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
+(cada una siendo secuencia de vectores) se suman término por término.
+
+
 == Bloque de Transformer
 #slide(
   repeat: 3,
-  self => [
+  self => align(center)[
     #let (only, uncover, alternatives) = utils.methods(self)
 
     #let edge-corner-radius = 10pt
@@ -447,30 +727,30 @@ para evaluar la expresión resultante.
       edge-corner-radius: edge-corner-radius,
       edge-stroke: 0.9pt,
 
-      node((0,0), name: <xi>),
-      plusnode((rel:(0pt, 117pt), to:<xi>),        name: <xip>),
-      plusnode((rel:(0pt, 117pt), to:<xip.north>), name: <xipp>),
+      node((0,0), name: <xl>),
+      plusnode((rel:(0pt, 117pt), to:<xl>),        name: <xlp>),
+      plusnode((rel:(0pt, 117pt), to:<xlp.north>), name: <xlpp>),
 
-      edge((rel:(0pt, -25pt), to:<xi>), <xi>, "--|>"),
-      edge(<xi>, <xip>, "-|>",
-        label: $x_i$,
+      edge((rel:(0pt, -25pt), to:<xl>), <xl>, "--|>"),
+      edge(<xl>, <xlp>, "-|>",
+        label: $x^((l))$,
         label-pos: -9pt,
         label-side: right,
         label-sep: 18pt,
       ),
       edge(
-        <xip>,
-        <xipp>,
-        label: $x_(i+1) #uncover("2-", $= x_i + sum_h h(x_i|"contexto")$)$,
+        <xlp>,
+        <xlpp>,
+        label: $x^((l+1)) #uncover("2-", $= x^((l)) + sum_h h(x^((l))|"contexto")$)$,
         label-side: right,
         label-pos: -12pt,
         label-sep: 18pt,
         "-|>",
       ),
       edge(
-        <xipp>,
-        (rel:(0pt, 25pt), to:<xipp.north>),
-        label: $x_(i+2) #uncover("3-", $= x_(i+1) + m(x_(i+1))$)$,
+        <xlpp>,
+        (rel:(0pt, 25pt), to:<xlpp.north>),
+        label: $x^((l+2)) #uncover("3-", $= x^((l+1)) + m(x^((l+1)))$)$,
         label-side: right,
         label-pos: -10pt,
         label-sep: 18pt,
@@ -478,7 +758,7 @@ para evaluar la expresión resultante.
       ),
 
       node(
-        enclose: (<xi>, <xip>, <xipp>, <mha>, <mlp>),
+        enclose: (<xl>, <xlp>, <xlpp>, <mha>, <mlp>),
         fill: green.transparentize(70%),
         snap: false,
         corner-radius: 10pt,
@@ -489,24 +769,24 @@ para evaluar la expresión resultante.
       {
         let hidden = self.subslide < 2
         node(
-          (rel:(-second-col-offset, branch-off-offset), to:<xi>),
+          (rel:(-second-col-offset, branch-off-offset), to:<xl>),
           name:<mha-pre>,
         )
         edge-hidden(
-          (<xi>, "|-", (rel:(0pt, -edge-corner-radius), to:<mha-pre>)),
-          (<xi>, "|-", <mha-pre>),
+          (<xl>, "|-", (rel:(0pt, -edge-corner-radius), to:<mha-pre>)),
+          (<xl>, "|-", <mha-pre>),
           <mha-pre>,
           <mha>, "-|>",
           hidden:hidden,
         )
         blob(
-          (<mha-pre>, 50%, (<mha-pre>, "|-", <xip>)),
+          (<mha-pre>, 50%, (<mha-pre>, "|-", <xlp>)),
           [Autoatención\ multicabezal],
           tint: orange,
           name: <mha>,
           hidden: hidden,
         )
-        edge-hidden(<mha>, (<mha>, "|-", <xip>), <xip>, "-|>",
+        edge-hidden(<mha>, (<mha>, "|-", <xlp>), <xlp>, "-|>",
           hidden: hidden,
         )
       },
@@ -514,19 +794,19 @@ para evaluar la expresión resultante.
       {
         let hidden = self.subslide < 3
         node(
-          (rel:(-second-col-offset, branch-off-offset), to:<xip.north>),
+          (rel:(-second-col-offset, branch-off-offset), to:<xlp.north>),
           name:<mlp-pre>,
         )
         edge-hidden(
-          (<xip>, "|-", (rel:(0pt, -edge-corner-radius), to: <mlp-pre>)),
-          (<xip>, "|-", <mlp-pre>),
+          (<xlp>, "|-", (rel:(0pt, -edge-corner-radius), to: <mlp-pre>)),
+          (<xlp>, "|-", <mlp-pre>),
           <mlp-pre>,
           <mlp>,
           hidden:hidden,
           "-|>",
         )
         blob(
-          (<mlp-pre>, 50%, (<mlp-pre>, "|-", <xipp>)),
+          (<mlp-pre>, 50%, (<mlp-pre>, "|-", <xlpp>)),
           [Perceptrón\ Multicapa],
           tint: blue,
           name: <mlp>,
@@ -534,8 +814,8 @@ para evaluar la expresión resultante.
         )
         edge-hidden(
           <mlp>,
-          (<mlp>, "|-", <xipp>),
-          <xipp>,
+          (<mlp>, "|-", <xlpp>),
+          <xlpp>,
           hidden: hidden,
           "-|>",
         )
@@ -545,27 +825,21 @@ para evaluar la expresión resultante.
   ]
 )
 
-== Softmax
-Por último la función *Softmax*
-
-Si tenemos: $z = (z_1, z_2, ..., z_K)$
-
-La funcion softmax se define como:
-$
-  "Softmax"(z)_i = frac(exp(z_i), sum_(j=1)^K exp(z_j))
-$
-
-donde cada componente $"Softmax"(z)_i$ satisface $0 <= "Softmax"(z)_i <= 1$
-y además $sum_(i=1)^K "Softmax"(z)_i = 1.$
-
 
 == Definición
-#fletcher-diagram(
-  edge-corner-radius: 10pt,
-  edge-stroke: 0.9pt,
-  blob((0,0),  none, height:50pt, tint:green),
-  blob((0,-1), none, height:50pt, tint:green),
-)
+#slide(composer: (2fr, 5fr))[
+  #fletcher-diagram(
+    edge-corner-radius: 10pt,
+    edge-stroke: 0.9pt,
+    blob((0,0),  none, height:50pt, tint:green),
+    blob((0,-1), none, height:50pt, tint:green),
+  )
+][
+  #definition[
+    Un transformer $"consiste"^*$ en una capa de embeding, una serie
+    de bloques de transformer, y al final un $"Softmax"$
+  ]
+]
 
 = Interpretabilidad mecanicista
 
