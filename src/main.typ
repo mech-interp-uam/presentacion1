@@ -1112,42 +1112,36 @@ activaciones para que sean más entendibles
 
 = Aprendizaje de Diccionario en llama 3.2 1B
 
-== xd
+== Nuestros resultados y avances
 
-Se entrenó un autoencoder disperso sobre las salidas del perceptrón multicapa
-medio de llama3.2 1B.
 
-Esto usando el procedimiento documentado en "GemmaScope"
+- Se siguirá el procedimiento documentado en el paper "GemmaScope", pero sobre
+  llama3.1 1B. Preeliminarmente, hemos: #pause
 
+  - Obtenido las salidas del perceptrón multicapa intermedio #pause
+
+  - Creado código para el autoencoder disperso #pause
+
+  - Creado código para autointerpretabilidad #pause
+
+  - El código para entrenamiento aún está en proceso
+
+== Llama 3.2 1B
+
+// TODO: Cómo hacer lode texto^*?
+- Es un modelo entrenado por meta, de licencia openweight$"s"^*$ destilado
+  apartir de Llama 3.1 8B #pause
+    - Diseñado para correr hasta en celulares #pause
+
+- Llama 3.1 8B asume un alto costo de entrenamiento como contraparte de su bajo
+  número de parámetros #pause
 
 == JumpReLU SAE
 
-- Optimización con restricciones
-- gradientes de esperanza
-- Cosine annealing learning rate
+- Optimización con restricciones #pause
 
+- $ell_0$ #pause
 
-== El SAE
+- Salida de el perceptrón multicapa 8 #pause
 
-#slide(composer: (1fr, 1fr))[
-  $
-    "JumpReLU" (accent(z, arrow) | accent(theta, arrow))
-    = accent(z, arrow) dot.circle H(accent(z, arrow) - accent(theta, arrow))\
-  $
-
-  $
-    diff/(diff theta) EE_(x tilde X) [cal(L)(x | theta)]
-  $
-
-  $
-    cancel(diff)/(cancel(diff) theta) H(accent(z, arrow) - accent(theta, arrow))
-    = 1/epsilon K((accent(z, arrow) - accent(theta, arrow))/epsilon)
-  $
-][
-  - $(beta_1, beta_2) = (0, 0.999)$
-
-  - Cosine schedule, warmup
-  - Columnas normalizadas
-  - Columnas normalizadas
-  - $b = 4096$
-]
+- $"JumpReLU" (z | theta) = z dot.circle H(z - theta)$
