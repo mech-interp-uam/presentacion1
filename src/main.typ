@@ -227,13 +227,6 @@ activación no lineal adecuada (como la sigmoide), puede aproximar cualquier
 función continua definida sobre un conjunto compacto de $RR^n$, con suficiente
 número de neuronas.
 
-
-== Redes neuronales Profundas
-
-Las redes neuronales actuales consisten de una larga composición de funciones,
-incluyendo perceptrones multicapa, es importante notar que la teoría indica que
-un perceptrón con tres capas es suficiente.
-
 == Entrenamiento
 
 === Aprendizaje supervisado
