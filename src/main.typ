@@ -1105,7 +1105,7 @@ activaciones para que sean más entendibles
     - Diseñado para correr hasta en celulares #pause
 
 - Llama 3.1 8B asume un alto costo de entrenamiento como contraparte de su bajo
-  número de parámetros #pause
+  número de parámetros
 
 == JumpReLU SAE
 
