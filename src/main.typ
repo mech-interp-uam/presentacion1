@@ -960,7 +960,7 @@ vectoriales de activaciones de los modelos.
 #pagebreak(weak: true)
 
 #corollary(title: "Consecuencia del lema de Johnson-Lindenstrauss")[
-  Para $0 < epsilon$, $m in NN$, si $k <= exp(m epsilon^2 slash 8)$
+  Para $0 < epsilon < 1$, $m in NN$, si $k <= exp(m epsilon^2 slash 8)$
   entonces existen $v_1, ..., v_k in RR^m$ tal que
   $
     abs(innerproduct(v_i, v_j))/(norm(v_i)norm(v_j))
