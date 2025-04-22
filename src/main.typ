@@ -169,6 +169,16 @@ $
 
 #pagebreak(weak: true)
 
+Otra función muy importancia es la función logística o sigmoide y se define como:
+
+$
+  sigma(x) = 1/(1 + e^(-x))
+$
+
+su importacia en las redes neuronales multicapa se debe a que es una función
+suave, continua y diferenciable en todo $RR$.
+
+#pagebreak(weak: true)
 #show table.cell.where(y: 0): strong
 #set table(
   stroke: (x, y) => if y == 0 {
