@@ -203,16 +203,20 @@ suave, continua y diferenciable en todo $RR$.
 #theorem(
   title: (
     "Teorema de aproximación universal"
-  )
+  ),
 )[
-  #set text(size: 20pt)
-  Sea $sigma: RR -> RR$ una función no constante, acotada y continua.
-  Entonces, la familia de funciones de la forma:
-  $F(x) = sum_(j=1)^N alpha_j sigma(w_j^top x + theta_j)$
-  es densa en $C(K)$ para cualquier conjunto compacto $K subset RR^n$.
+  Sea $sigma$ una función continua y discriminatoria. Entonces, las sumas finitas de la forma:
+  $
+    G(x) = sum_{j=1}^N alpha_j , sigma(w_j^T x + b_j),
+    quad "donde" w_j in RR^n, alpha_j, b_j in RR
+  $
+  son densas en el espacio $C(I_n)$
 
-  Es decir, para toda función $f in C(K)$ y $epsilon > 0$ existe una combinación
-  finita de la forma anterior tal que: $sup_(x in K) abs(f(x) - F(x)) < epsilon$
+  Es decir, dada cualquier función continua $f in C(I_n)$ y cualquier $ epsilon > 0$, existe una suma $G(x)$ de la forma anterior tal que:
+  $
+    |G(x) - f(x)| < epsilon quad "para todo" x in I_n
+  $
+
 ]
 
 #pagebreak(weak: true)
