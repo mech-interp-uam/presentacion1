@@ -605,7 +605,7 @@ Permite que las salidas sean distribuciones sobre el vocabulario
     let top-arrow = {
       edge(
         (rel: (0cm, 2cm), to: (name: "kpoint")),
-        (name: "r", anchor: "south"),
+        (name: "l", anchor: "south"),
         snap-to: (none, none),
         stroke: palette.out,
         "-|>",
@@ -615,18 +615,18 @@ Permite que las salidas sean distribuciones sobre el vocabulario
     let rnode = {
       node(
         (rel: (0cm, 4.5cm), to: "kpoint"),
-        $r_#t$,
+        $h(x^((l)))_#t$,
         inset: 0.5em,
-        name: "r",
+        name: "l",
       )
     }
 
     // Hard coded shift so the x are aligned
-    let xshift = 8.0em
+    let xshift = 9.0em
     let topx = {
       node(
-        (rel: (xshift, 1.1cm), to: (name: "r", anchor: "north")),
-        $x^((l+1))_#t = r_#t + x^((l))_#t$,
+        (rel: (xshift, 1.1cm), to: (name: "l", anchor: "north")),
+        $x^((l+1))_#t = h(x^((l)))_#t + x^((l))_#t$,
       )
     }
 
@@ -677,14 +677,14 @@ Permite que las salidas sean distribuciones sobre el vocabulario
 
     // Node for correct bounding box so diagram does not grow this does not
     // overflow
-    node((rel: (2.3cm, 0cm), to: (name: "x" + str(T))), [])
+    node((rel: (3.9cm, 0cm), to: (name: "x" + str(T))), [])
 }
 )))
 
 
 == Autoatención Multicabezal
 Cada cabezal realiza la _misma_ operación con su *propio* conjunto de parámetros
-aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $r$
+aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $h(x^((l)))_i$
 (cada una siendo secuencia de vectores) se suman término por término.
 
 
