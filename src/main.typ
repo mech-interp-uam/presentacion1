@@ -954,28 +954,26 @@ vectoriales de activaciones de los modelos.
 
 == Compressed sensing
 
-#lemma(title: "Johnson-Lindenstrauss")[
-  Sea $A$ una matriz $m times n$ con entradas iid normales estandar. Entonces,
-  para cualquier conjunto de $k$ vectores en $RR^n$, la función
+
+
+#remark[
+  En $RR^m$ podemos escoger exponencialmente más vectores casi ortogonales que
+  ortogonales conforme $m$ incrementa
+]
+
+#pagebreak(weak: true)
+
+#corollary(title: "Consecuencia del lema de Johnson-Lindenstrauss")[
+  Para $0 < epsilon < 1$, $m in NN$, si $k <= exp(m epsilon^2 slash 8)$
+  entonces existen $v_1, ..., v_k in RR^m$ tal que
   $
-    f(x) = 1/sqrt(m) A x
-  $
-  Preserva las distancias vector a vector hasta un factor de
-  $(1 plus.minus epsilon)$ con probabilidad de almenos $1 slash k$ si
-  $
-    k <= exp(m epsilon^2 slash 8)
+    abs(innerproduct(v_i, v_j))/(norm(v_i)norm(v_j))
+    <= 2 epsilon / (1 - epsilon)
   $
 ]
 
 #speaker-note[
 https://cims.nyu.edu/~cfgranda/pages/OBDA_spring16/material/random_projections.pdf
-]
-
-#pagebreak(weak: true)
-
-#remark[
-  En $RR^m$ podemos escoger exponencialmente más vectores casi ortogonales que
-  ortogonales conforme $m$ incrementa
 ]
 
 #speaker-note[
