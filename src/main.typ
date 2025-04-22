@@ -1101,7 +1101,7 @@ activaciones para que sean más entendibles
 
 
 - Se siguirá el procedimiento documentado en el paper "GemmaScope", pero sobre
-  llama3.1 1B. Preeliminarmente, hemos: #pause
+  llama3.2 1B. Preeliminarmente, hemos: #pause
 
   - Obtenido las salidas del perceptrón multicapa intermedio #pause
 
