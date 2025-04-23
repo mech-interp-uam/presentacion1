@@ -90,8 +90,8 @@
 
 == Resumen
 
-Las redes neuronales, aunque impresionantes en sus capasidades, no son
-naturalmente enterpretables. En este trabajo, nosotros:
+Las redes neuronales, aunque impresionantes en sus capacidades, no son
+naturalmente interpretables. En este trabajo, nosotros:
 #pause
 
 - Entrenamos una red neuronal para la "ingeniería inversa" de los modelos
@@ -425,10 +425,19 @@ Ejemplos:
 
 == Tokenización
 
-- Tokenizar consiste en romper el texto en fragmentos #pause
-  - Cada byte $->$ vocabulario de 256
-  - Cada palabra $->$ vocabulario enorme
-  - En la práctica, es algo intermedio
+Un token es una unidad mínima de texto que el modelo puede procesar: puede ser 
+una palabra, sílaba o fragmento.
+
+¿Por qué es necesaria?
+
+Las redes neuronales no entienden texto directamente. Necesitan convertirlo en 
+vectores.
+
+Métodos comunes:
+- Byte-level: cada carácter $->$ un token (256 posibles)
+- Word-level: cada palabra $->$ un token (vocabulario enorme)
+- Subword (BPE): fragmentos como "`pre`", "`##sión`", "`##able`" (lo más usado)
+
 
 == Embedding
 - A cada elemento del vocabulario se le asigna un vector (parámetro aprendible)
