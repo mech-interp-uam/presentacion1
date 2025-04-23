@@ -431,7 +431,7 @@ una palabra, sílaba o fragmento.
 ¿Por qué es necesaria?
 
 Las redes neuronales no entienden texto directamente. Necesitan convertirlo en 
-números.
+vectores.
 
 Métodos comunes:
 - Byte-level: cada carácter → un token (256 posibles)
