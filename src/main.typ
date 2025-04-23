@@ -434,9 +434,9 @@ Las redes neuronales no entienden texto directamente. Necesitan convertirlo en
 vectores.
 
 Métodos comunes:
-- Byte-level: cada carácter → un token (256 posibles)
-- Word-level: cada palabra → un token (vocabulario enorme)
-- Subword (BPE): fragmentos como “pre”, “`#``#`sión”, “`#``#`able” (lo más usado)
+- Byte-level: cada carácter $->$ un token (256 posibles)
+- Word-level: cada palabra $->$ un token (vocabulario enorme)
+- Subword (BPE): fragmentos como "`pre`", "`##sión`", "`##able`" (lo más usado)
 
 
 == Embedding
