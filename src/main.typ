@@ -976,7 +976,7 @@ vectoriales de activaciones de los modelos.
   Para $0 < epsilon < 1$, $m in NN$, si $k <= exp(m epsilon^2 slash 8)$
   entonces existen $v_1, ..., v_k in RR^m$ tal que
   $
-    abs(innerproduct(v_i, v_j))/(norm(v_i)norm(v_j))
+    abs(innerproduct(v_i, v_j))/(norm(v_i, size: #1em)norm(v_j, size: #1em))
     <= 2 epsilon / (1 - epsilon)
   $
 ]
