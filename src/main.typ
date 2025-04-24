@@ -424,18 +424,38 @@ Ejemplos:
 
 
 == Tokenización
-
+// Vamos a usar \ para tener nuevas lineas sin nuevos parrafos para ahorrar
+// espacio y permitir una lista (-) con espacios entre las lineas (este tipo de
+// lista se puede crear también con la función list y arg tight: true)
+// pues por ahora las animaciones de touying no funcionan bien con listas sin
+// esas lineas vacías entre cada item (o con tight: false en código)
+// tienen el bug de de cambian el layout de las diapositivas si son tight
+// Además de tener que ser tight, deben estar en su propio parrafo, es decir,
+// con un espacio antes del inicio de la lista
+// Se podría tratar de sobre-escribir par.spacing (el que usan si tight: false)
+// con el valor de par.leading (el que usan si tight: true) pero leer
+// par.leading solo se puede en un context bloque de contexto y dentro de un
+// bloque de contexto no se puede usar #pause, uno podría pensar en usar hide
+// pero recordemos que eso no funciona para list/enum y en esos casos #pause
+// hace algo especial (que podríamos reimplementar y modificar, eso podría
+// funcionar)
+//
+// La solución más sencilla es usar un enum tigh: false y recortar espacio de
+// otros lados
 Un token es una unidad mínima de texto que el modelo puede procesar: puede ser 
 una palabra, sílaba o fragmento.
-
+#pause \
 ¿Por qué es necesaria?
-
+#pause \
 Las redes neuronales no entienden texto directamente. Necesitan convertirlo en 
 vectores.
+#pause \
+Métodos comunes: #pause
 
-Métodos comunes:
-- Byte-level: cada carácter $->$ un token (256 posibles)
-- Word-level: cada palabra $->$ un token (vocabulario enorme)
+- Byte-level: cada carácter $->$ un token (256 posibles) #pause
+
+- Word-level: cada palabra $->$ un token (vocabulario enorme) #pause
+
 - Subword (BPE): fragmentos como "`pre`", "`##sión`", "`##able`" (lo más usado)
 
 
