@@ -840,7 +840,7 @@ aprendibles ($W_Q, W_K, W_V, W_O$). Sus _distintas_ salidas $h(x^((l)))_i$
   )
 ][
   #definition[
-    Un transformer $"consiste"^*$ en una capa de embeding, una serie
+    Un transformer consiste#super(sym.ast) en una capa de embeding, una serie
     de bloques de transformer, y al final un $"Softmax"$
   ]
 ]
@@ -1140,9 +1140,8 @@ activaciones para que sean más entendibles
 
 == Llama 3.2 1B
 
-// TODO: Cómo hacer lode texto^*?
-- Es un modelo entrenado por meta, de licencia openweight$"s"^*$ destilado
-  apartir de Llama 3.1 8B #pause
+- Es un modelo entrenado por meta, de licencia openweights#super(sym.ast)
+  destilado apartir de Llama 3.1 8B #pause
     - Diseñado para correr hasta en celulares #pause
 
 - Llama 3.1 8B asume un alto costo de entrenamiento como contraparte de su bajo
