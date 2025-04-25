@@ -980,9 +980,9 @@ vectoriales de activaciones de los modelos.
     abs(innerproduct(vectors.at(#0), vectors.at(#1)))
     /
     #context{
-      let h = calc.max(..vectors.map(it => measure(math.norm(it)).height))
+      let h = calc.max(..vectors.map(it => measure($ norm(#it) $).height))
       let norms = vectors.map(it => math.norm(it, size: h))
-      $#norms.at(0) #norms.at(1)$
+      $ #norms.at(0) #norms.at(1) $
     }
     <= 2 epsilon / (1 - epsilon)
   $
