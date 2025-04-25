@@ -233,7 +233,7 @@ neuronas.
 === Aprendizaje supervisado
 - Optimizar un modelo para aproximar una función #pause
 
-- Los datos consisten de pares $(x,y)$ donde $y$ es aproximadamente $f(x)$ #pause
+- Los datos consisten de pares $(x,y)$ donde $y approx f(x)$ #pause
 
 - Función objetivo
 
