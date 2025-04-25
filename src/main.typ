@@ -995,8 +995,15 @@ vectoriales de activaciones de los modelos.
 #corollary(title: "Consecuencia del lema de Johnson-Lindenstrauss")[
   Para $0 < epsilon < 1$, $m in NN$, si $k <= exp(m epsilon^2 slash 8)$
   entonces existen $v_1, ..., v_k in RR^m$ tal que
+  #let vectors = ($v_i$, $v_j$)
   $
-    abs(innerproduct(v_i, v_j))/(norm(v_i)norm(v_j))
+    abs(innerproduct(vectors.at(#0), vectors.at(#1)))
+    /
+    #context{
+      let h = calc.max(..vectors.map(it => measure($ norm(#it) $).height))
+      let norms = vectors.map(it => math.norm(it, size: h))
+      $ #norms.at(0) #norms.at(1) $
+    }
     <= 2 epsilon / (1 - epsilon)
   $
 ]
