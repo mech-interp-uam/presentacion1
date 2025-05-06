@@ -178,25 +178,6 @@ $
 su importacia en las redes neuronales multicapa se debe a que es una función
 suave, continua y diferenciable en todo $RR$.
 
-#pagebreak(weak: true)
-#show table.cell.where(y: 0): strong
-#set table(
-  stroke: (x, y) => if y == 0 {
-    (bottom: 0.7pt + black)
-  },
-)
-
-#align(
-  center,
-  table(
-    columns: (1fr, 1fr, 1fr),
-    table.header(
-     [Red neuronal], [Cerebro],  [Computadora]
-    ),
-     [Parámetros  ], [Neuronas],  [Programa  ],
-     [Activaciones], [Disparo ],  [Memoria   ],
-  )
-)
 
 == Teorema de aproximación universal
 
