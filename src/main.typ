@@ -178,11 +178,9 @@ $
 su importacia en las redes neuronales multicapa se debe a que es una función
 suave, continua y diferenciable en todo $RR$.
 
-#pagebreak(weak: true)
 
 == Teorema de aproximación universal
 
-#set text(size: 10pt)
 #theorem(
   title: (
     "Teorema de aproximación universal"
