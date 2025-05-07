@@ -1100,7 +1100,7 @@ activaciones para que sean más entendibles
   - Penalización para dispersión
   #pause
 
-  - Encontrar una base sobrecompleta en sus entradas
+  - Encontrar un conjunto de vectores sobrecompleto interpretable sus entradas
 ]
 
 == Golden Gate Claude
