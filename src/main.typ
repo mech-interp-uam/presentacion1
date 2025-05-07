@@ -188,14 +188,14 @@ suave, continua y diferenciable en todo $RR$.
 )[
   Sea $sigma$ una función continua y discriminatoria. Entonces, las sumas finitas de la forma:
   $
-    G(x) = sum_{j=1}^N alpha_j , sigma(w_j^T x + b_j),
+    G(x) = sum_(j=1)^N alpha_j sigma(w_j^T x + b_j),
     quad "donde" w_j in RR^n, alpha_j, b_j in RR
   $
   son densas en el espacio $C(I_n)$
 
   Es decir, dada cualquier función continua $f in C(I_n)$ y cualquier $ epsilon > 0$, existe una suma $G(x)$ de la forma anterior tal que:
   $
-    |G(x) - f(x)| < epsilon quad "para todo" x in I_n
+    abs(G(x) - f(x)) < epsilon quad "para todo" x in I_n
   $
 
 ]
