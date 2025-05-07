@@ -206,7 +206,7 @@ suave, continua y diferenciable en todo $RR$.
 
 Una red neuronal feedforward con tres capas, que utilice una función de
 activación no lineal adecuada, puede aproximar cualquier función continua
-definida sobre un conjunto compacto de $RR^n$, con suficiente número de
+sobre un intervalo definido de $RR^n$, con suficiente número de
 neuronas.
 
 == Entrenamiento
